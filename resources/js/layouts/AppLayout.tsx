@@ -3,6 +3,7 @@ import { Clapperboard, LayoutDashboard, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem } from "../components/ui/sidebar";
+import ThemeToggle from "../components/ThemeToggle";
 import type { SharedProps } from "../types";
 
 const item = "flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:hover:bg-zinc-800";
@@ -20,6 +21,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   if (!auth?.user) {
     return (
       <main className="mx-auto flex min-h-svh w-full max-w-md flex-col justify-center p-6">
+        <ThemeToggle className="fixed top-4 right-4" />
         {notice}
         {children}
       </main>
@@ -53,7 +55,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </nav>
         </SidebarContent>
         <SidebarFooter>
-          <p className="truncate px-3 text-sm">{auth.user.name}</p>
+          <div className="flex items-center justify-between gap-2 px-3">
+            <p className="truncate text-sm">{auth.user.name}</p>
+            <ThemeToggle />
+          </div>
           <Link href="/logout" method="post" as="button" className={item}>
             <LogOut aria-hidden="true" className="size-4" />
             Log out
