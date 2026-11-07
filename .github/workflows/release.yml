@@ -46,16 +46,20 @@ jobs:
           ref: refs/tags/${{ steps.tag.outputs.tag }}
           fetch-depth: 0
           persist-credentials: false
+      # The notes come from the default branch: a tag on an older commit (a
+      # retroactive or re-published release) predates its own CHANGELOG section.
       - name: Extract changelog notes
         env:
           TAG: ${{ steps.tag.outputs.tag }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          git show "origin/$DEFAULT_BRANCH:CHANGELOG.md" > "$RUNNER_TEMP/CHANGELOG.md"
           version="${TAG#v}"
           awk -v ver="$version" '
             $0 ~ "^## \\[" ver "\\]" { capture=1; next }
             capture && /^## \[/ { exit }
             capture { print }
-          ' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+          ' "$RUNNER_TEMP/CHANGELOG.md" > "$RUNNER_TEMP/notes.md"
           if [ ! -s "$RUNNER_TEMP/notes.md" ]; then
             echo "::error::CHANGELOG.md has no section for $version"
             exit 1
