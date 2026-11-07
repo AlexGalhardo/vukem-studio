@@ -1,59 +1,68 @@
 # Changelog
 
-All notable changes to this project are documented in this file.
+All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Added
-
-- **app:** Videos up to 300 seconds (was 45); plan shots, output tokens and the queue timeout scale with the duration
-- **security:** Vendor the Cloudflare security-audit skill and run it on pull requests (guidance mode)
-- **app:** Claude (`claude-sonnet-5-5`, `claude-opus-5-5`) and OpenAI planners behind the planner interface, selected by `STUDIO_MODEL` or `ANTHROPIC_API_KEY`; a missing key fails the job with the variable name
-- **app:** Rolling 24-hour job quota behind a per-user lock, integer-epoch window, worst-case cost cap per job, output-token cap, and at most five renders per job
-- **deploy:** `railway.app.toml` runs `migrate` before traffic and checks `/up`; `Dockerfile.app` ships the skill files and `QUEUE_CONNECTION=database`
-- **docs:** Quickstart, configuration, jobs, app deployment and security pages
-- **test:** Parallel-request tests for quota, claim and requeue; an env-flagged real Claude test; a hung-encoder deadline test
-- Video jobs: a brief form, server-side validation, a prompt compiler, a local scene planner, an FFmpeg renderer, QA, captions, loudness, a music bed that requires a license, a job library, and a publish pack that is not posted
-- Optional HyperFrames and Remotion renderer commands selected with `STUDIO_RENDERER`
-- English visual law `SKILL.en.md` for `traco-simples`, the style the default brief attaches
-- Vukem application shell: Inertia React, sidebar dashboard at `/`, Google-only login page, and session redirect tests
-- App CI jobs: gofmt, `go vet`, `go test -race`, govulncheck, Betterleaks, and a `Dockerfile.app` image build
-- Dependabot for Go modules, GitHub Actions, Docker, and the npm lockfiles
-- Documentation site in `site/`, using the vukem.dev docs shell, with the Studio pipeline, tools, skills, and deploy guides
-- Research notes, translated tool catalog, translated studio kit, and brainstorm record under `docs/`
-- Video and engineering skill kits unpacked into `.agents/skills/`
-- Repository hygiene: MIT license, contributing guide, security policy, code of conduct, editorconfig, markdownlint, Biome 2, git-cliff, commit-msg hook, Scorecard workflow, and a `v*` GitHub release workflow
-- Docker image and Railway config for the documentation site
-- `.railwayignore` so CLI uploads skip skill media, and a generated Railway config draft in `.railway/railway.ts` (not applied)
-- Bun 1.4.4 typecheck script (`bun run check`)
-
-### Changed
-
-- Require vukem v0.39.0.
-- **docs:** Agent rules cover the shared feedback file (`ST-` ids), the pinned Astro site and `last-updated`, the canonical jobs pipeline, tests, and Railway service, volume and domain rules
-- Bump vukem to v0.38.0
-- **site:** The documentation site is built with Astro on the vukem.dev site shell instead of Next.js. Build `npm run build` (writes `dist/`), start `npm start`; `/` and `/docs` answer 307 to `/docs/introduction`
-- Claim and retry of a job are conditional SQL updates, so duplicate deliveries and parallel retries cannot render or bill twice
-- Every ffmpeg, ffprobe and renderer process has a five-minute deadline
-- GitHub repository is [AlexGalhardo/vukem-studio](https://github.com/AlexGalhardo/vukem-studio). The public site stays `studio.vukem.dev`
-
-### Removed
-
-- **security:** Email and password registration, login, password reset, email verification, their pages and mails: Google is the only sign-in and the app sends no mail, so the image default `MAIL_MAILER=log` is moot (ST-SEC-005, ST-SEC-007)
-- The starter's posts CRUD (it was public, unauthenticated), its seeder, factory and pages
-- Next.js dependencies and configuration from `site/`, and the pt-br redirect component (an open redirect)
+## [0.4.0] - 2026-11-07
 
 ### Fixed
 
-- **site:** Doc pages are dated by the author date, so a rebase merge no longer turns the `Last updated` check red; the `.githooks/pre-push` hook refreshes `site/content/last-updated.json` before a push.
-- **security:** A global rolling 24-hour model budget, `STUDIO_DAILY_BUDGET_CENTS` (default 500, `0` disables), reserves each call's worst-case cost atomically before the call; an exhausted budget fails the job with a readable reason (ST-SEC-004)
-- **security:** A retry takes a slot of the rolling 24-hour quota like a new job, atomically behind the per-user lock; a refused retry takes none, and an exhausted quota answers 429 (ST-SEC-004)
-- **security:** The Railway start command no longer runs a recursive `chown` as root over the volume; it changes the mount point and then entries with another owner with `chown -h` (ST-SEC-006). Update the live `studio-app` start command to match
-- **security:** The publish pack and the worker save only their own columns, so a stale read can no longer undo a claim or requeue (ST-SEC-003)
-- **security:** A voice upload whose WAV header understates its length no longer crashes the process; the declared data size is honored and the decoded length is checked before resampling (ST-SEC-001)
-- Captions with control characters, braces or backslashes are rejected in a plan instead of reaching libass
-- The docs server answers 400 on malformed percent-encoding instead of failing
-- CI markdown lint and the Betterleaks scan: bare URLs are wrapped, the phase 5 and 6 audit headings match the outline, and auth fixture passwords are allowlisted
+- **security:** Honor the declared WAV data size and check the decoded voice length ([c415fd2](https://github.com/AlexGalhardo/vukem-studio/commit/c415fd280bcbcd0c28379380ceecaad22ae1ab42))
+- **security:** Save job columns instead of whole stale rows ([a4fa430](https://github.com/AlexGalhardo/vukem-studio/commit/a4fa430dad56f41ff7faa7d82df523d2e050b25a))
+- **security:** Stop following symlinks in the root chown of the start command ([50e5e09](https://github.com/AlexGalhardo/vukem-studio/commit/50e5e09a552702895aaeeedad75b4c2819e40e0f))
+- **security:** Remove password sign-in so Google is the only way in ([b2063f4](https://github.com/AlexGalhardo/vukem-studio/commit/b2063f47671ac059bc83b790a24573aaf0df77e1))
+- **security:** Count retries in the rolling render quota ([1bc8114](https://github.com/AlexGalhardo/vukem-studio/commit/1bc81140afc4efcc346d68dd16bd7e91abbc15f4))
+- **security:** Add a global rolling daily model budget ([7d3afc4](https://github.com/AlexGalhardo/vukem-studio/commit/7d3afc46c8da935e36ad5bcd179ea12a474d0423))
+- **site:** Date doc pages by author date so rebase merges keep them valid ([ea230fd](https://github.com/AlexGalhardo/vukem-studio/commit/ea230fdafd1e50e3950ffd72f62d267db9946197))
+
+## [0.3.1] - 2026-11-07
+
+### Fixed
+
+- **app:** Remove the public posts scaffold ([9e2fda7](https://github.com/AlexGalhardo/vukem-studio/commit/9e2fda76ba5c44f6ae0ff4c211938036c4aef6af))
+- **deploy:** Migrate the SQLite volume in the start command, not in pre-deploy ([e402fb5](https://github.com/AlexGalhardo/vukem-studio/commit/e402fb563056625923c378cd0fc1f75669552a73))
+- **deploy:** Let each Railway service pick its Dockerfile instead of the shared railway.toml ([d276ad2](https://github.com/AlexGalhardo/vukem-studio/commit/d276ad283bc55fcc65f6eaa0150d59dcf8882ab6))
+- **deploy:** Move the vukem queue tables out of the way of the app's jobs table ([658fcb5](https://github.com/AlexGalhardo/vukem-studio/commit/658fcb50dbc570bf9d8d59871bb6845cf4760519))
+
+## [0.3.0] - 2026-11-07
+
+### Added
+
+- **site:** Migrate the docs site from Next.js to Astro on the vukem site shell ([16def7f](https://github.com/AlexGalhardo/vukem-studio/commit/16def7f789c268162f9cb85be89148d7c9cda2ac))
+- **studio:** Add Claude and OpenAI planners with a key check, a cost cap and a real-model test ([860e8a3](https://github.com/AlexGalhardo/vukem-studio/commit/860e8a33d27c9701073e67ec2e079b9d92bb6131))
+- **deploy:** Ship the skill files, a queue worker setting and a migrate pre-deploy step in the app image ([5a5821a](https://github.com/AlexGalhardo/vukem-studio/commit/5a5821aa7ed7a4c31c6b7e6f59d7051d477721cf))
+- Raise the brief duration limit to 300 seconds and scale plan, token and queue limits with it ([e9e2422](https://github.com/AlexGalhardo/vukem-studio/commit/e9e2422a7d61dc3faa413cb6b10e05943b44e51e))
+
+### Fixed
+
+- **site:** Remove the legacy pt-br redirect that allowed an open redirect ([9fc34c6](https://github.com/AlexGalhardo/vukem-studio/commit/9fc34c6a1fdbe5733b804854f1aa09dfa6bc6381))
+- **site:** Answer 400 on malformed paths and keep decoded paths inside dist ([33d5c16](https://github.com/AlexGalhardo/vukem-studio/commit/33d5c167703a37071ca7c35cd267c563b91e8b81))
+- **studio:** Bound every encoder process with a deadline and reject caption injection in plans ([3414db3](https://github.com/AlexGalhardo/vukem-studio/commit/3414db35f29501ca8d71a6709c847bd1d58be8ef))
+- **jobs:** Enforce the rolling quota, claim and requeue with atomic SQL ([d32e230](https://github.com/AlexGalhardo/vukem-studio/commit/d32e230db5869a99aa9ac9cc900e25a0a2df6c8d))
+
+## [0.2.0] - 2026-11-06
+
+### Added
+
+- **studio:** Render a brief into a checked mp4 ([64d9289](https://github.com/AlexGalhardo/vukem-studio/commit/64d92891d656731a5ab0dd852cf48021c9ff2cb6))
+
+## [0.1.0] - 2026-11-05
+
+### Added
+
+- Add the vukem app shell and its ci jobs ([9c02185](https://github.com/AlexGalhardo/vukem-studio/commit/9c02185ffbb1951e79d746f6ce12ab0448093816))
+
+### Fixed
+
+- **docs:** Use a markdown link on the railway page ([cae7a8f](https://github.com/AlexGalhardo/vukem-studio/commit/cae7a8f5f15db84ca6c01e059ac71fe2919e0f8b))
+
+[Unreleased]: https://github.com/AlexGalhardo/vukem-studio/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/AlexGalhardo/vukem-studio/compare/v0.3.1...v0.4.0
+[0.3.1]: https://github.com/AlexGalhardo/vukem-studio/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/AlexGalhardo/vukem-studio/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/AlexGalhardo/vukem-studio/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/AlexGalhardo/vukem-studio/releases/tag/v0.1.0
