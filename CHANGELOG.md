@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **ui:** Add shadcn/ui (radix-nova) with a collapsible sidebar, tooltips, cards and form controls, and a tips panel on the dashboard
+- **dashboard:** Show the brief form, recent videos and tips on `/`, with a tooltip on every brief field
+
+### Changed
+
+- **ui:** Redesign `/login` as a two-column page with a single Google button
+
+### Security
+
+- **auth:** Only `aleexgvieira@gmail.com` and `aleexgalhardoo@gmail.com` may sign in; other or unverified Google accounts are refused before a user is created, and sessions of other users are ended
+
 ## [0.4.0] - 2026-11-07
 
 ### Fixed

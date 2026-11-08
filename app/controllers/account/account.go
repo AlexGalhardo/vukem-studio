@@ -1,4 +1,4 @@
-// Package account holds the login page, logout and dashboard handlers,
+// Package account holds the login page and logout handlers,
 // rendered with Inertia pages in resources/js/pages. Google is the only
 // sign-in (routes/social.go).
 package account
@@ -31,7 +31,3 @@ func (h *Handlers) Logout(c *web.Ctx) error {
 
 	return c.Redirect("/login")
 }
-
-// Dashboard is the first page after login; the user arrives as the shared
-// auth.user prop.
-func (*Handlers) Dashboard(c *web.Ctx) error { return inertia.Render(c, "Dashboard", nil) }

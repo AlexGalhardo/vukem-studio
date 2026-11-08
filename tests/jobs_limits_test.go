@@ -24,7 +24,7 @@ func limitsApp(t *testing.T) (*vukemtest.App, *database.DB) {
 	t.Helper()
 
 	app := vukemtest.New(t, bootstrap.New)
-	register(t, app, app.Client(t), "race@example.com")
+	register(t, app, app.Client(t), owner)
 
 	db, err := app.DB()
 	if err != nil {

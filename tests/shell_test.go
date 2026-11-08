@@ -16,9 +16,9 @@ func TestSignedInHomeIsDashboard(t *testing.T) {
 
 	app := vukemtest.New(t, bootstrap.New)
 	c := app.Client(t)
-	register(t, app, c, "home@example.com")
+	register(t, app, c, owner)
 
-	c.Get("/").AssertOK().AssertInertia("Dashboard").PropEquals("auth.user.email", "home@example.com")
+	c.Get("/").AssertOK().AssertInertia("Dashboard").HasProp("jobs", 0).PropEquals("auth.user.email", owner)
 }
 
 func TestLogoutReturnsToLogin(t *testing.T) {
@@ -26,7 +26,7 @@ func TestLogoutReturnsToLogin(t *testing.T) {
 
 	app := vukemtest.New(t, bootstrap.New)
 	c := app.Client(t)
-	register(t, app, c, "out@example.com")
+	register(t, app, c, owner)
 
 	c.PostJSON("/logout", nil).AssertRedirect("/login")
 	c.Get("/").AssertRedirect("/login")
@@ -35,7 +35,7 @@ func TestLogoutReturnsToLogin(t *testing.T) {
 func TestSessionCookieFlags(t *testing.T) {
 	t.Parallel()
 
-	user := social.User{ID: "g-2", Email: "cookie@example.com", EmailVerified: true, Name: "Cook"}
+	user := social.User{ID: "g-2", Email: owner, EmailVerified: true, Name: "Cook"}
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 	c := app.Client(t)
 
@@ -59,7 +59,7 @@ func TestSessionCookieFlags(t *testing.T) {
 func TestGoogleSignInReachesHome(t *testing.T) {
 	t.Parallel()
 
-	user := social.User{ID: "g-1", Email: "gia@example.com", EmailVerified: true, Name: "Gia"}
+	user := social.User{ID: "g-1", Email: owner, EmailVerified: true, Name: "Gia"}
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 	c := app.Client(t)
 
