@@ -6,29 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useT } from "@/lib/i18n";
 
 interface Props {
   styles: string[];
   ratios: string[];
 }
 
-const tips = {
-  goal: "What the viewer should think, feel or do after watching. One sentence, one outcome: \"Get neighbors to visit the Saturday market\".",
-  audience: "Who watches, in plain words: \"parents of toddlers in Lisbon\". A specific audience sets the vocabulary, the pace and the hook.",
-  subject: "The one thing the video is about, or the offer. If you need \"and\" twice, split it into two videos.",
-  duration: "Length in seconds, 5 to 300. Short vertical videos hold attention best at 15 to 45 seconds; cut anything that does not earn its time.",
-  ratio: "Frame shape. 9:16 for Reels, Shorts and TikTok (keep text and faces inside the safe area, away from the top and bottom UI). 1:1 and 4:5 for feeds, 16:9 for YouTube and the web.",
-  style: "The visual recipe the planner follows: shot types, pacing and captions. Pick the one closest to the tone you want.",
-  language: "Language of the voice and captions, as a code such as en or pt. Captions matter: most people watch with the sound off.",
-  facts: "Claims the video must keep, one per line: prices, dates, names, numbers. The planner will not invent or change them.",
-  links: "Pages with extra context, such as the product page or an article. They are references for you and the plan, not downloaded footage.",
-  cta: "The single action at the end: \"Visit studio.example\". Say it once, say it plainly, and keep it on screen long enough to read.",
-  voice: "Silent needs nothing and relies on captions. Local text to speech reads the script on this server. Upload a WAV to use your own recording.",
-  music: "Name the license or source of the music bed, such as \"Pixabay 123\". Leave it empty to ship without music; never use tracks you cannot license.",
-  voiceFile: "A WAV recording of the narration. Record in a quiet room, close to the microphone, and keep it close to the chosen duration.",
-};
-
 export default function BriefForm({ styles, ratios }: Props) {
+  const t = useT();
   const form = useForm({
     goal: "",
     audience: "",
@@ -76,54 +62,54 @@ export default function BriefForm({ styles, ratios }: Props) {
 
   return (
     <form onSubmit={submit} className="space-y-5">
-      <FieldTip id="goal" label="Goal" tip={tips.goal} error={err("goal")}>
-        <Input {...bind("goal")} />
+      <FieldTip id="goal" label={t("ui.brief.goal")} tip={t("ui.brief.tips.goal")} error={err("goal")}>
+        <Input {...bind("goal")} placeholder={t("ui.brief.placeholders.goal")} />
       </FieldTip>
-      <FieldTip id="audience" label="Audience" tip={tips.audience} error={err("audience")}>
-        <Input {...bind("audience")} />
+      <FieldTip id="audience" label={t("ui.brief.audience")} tip={t("ui.brief.tips.audience")} error={err("audience")}>
+        <Input {...bind("audience")} placeholder={t("ui.brief.placeholders.audience")} />
       </FieldTip>
-      <FieldTip id="subject" label="Offer or subject" tip={tips.subject} error={err("subject")}>
-        <Input {...bind("subject")} />
+      <FieldTip id="subject" label={t("ui.brief.subject")} tip={t("ui.brief.tips.subject")} error={err("subject")}>
+        <Input {...bind("subject")} placeholder={t("ui.brief.placeholders.subject")} />
       </FieldTip>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FieldTip id="duration" label="Duration (seconds)" tip={tips.duration} error={err("duration")}>
+        <FieldTip id="duration" label={t("ui.brief.duration")} tip={t("ui.brief.tips.duration")} error={err("duration")}>
           <Input {...bind("duration")} type="number" min={5} max={300} />
         </FieldTip>
-        <FieldTip id="ratio" label="Aspect ratio" tip={tips.ratio} error={err("ratio")}>
+        <FieldTip id="ratio" label={t("ui.brief.ratio")} tip={t("ui.brief.tips.ratio")} error={err("ratio")}>
           {choose("ratio", ratios.map((r) => ({ value: r, label: r })))}
         </FieldTip>
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FieldTip id="style_skill" label="Style skill" tip={tips.style} error={err("style_skill")}>
+        <FieldTip id="style_skill" label={t("ui.brief.style")} tip={t("ui.brief.tips.style")} error={err("style_skill")}>
           {choose("style_skill", styles.map((s) => ({ value: s, label: s })))}
         </FieldTip>
-        <FieldTip id="language" label="Spoken language" tip={tips.language} error={err("language")}>
-          <Input {...bind("language")} />
+        <FieldTip id="language" label={t("ui.brief.language")} tip={t("ui.brief.tips.language")} error={err("language")}>
+          <Input {...bind("language")} placeholder={t("ui.brief.placeholders.language")} />
         </FieldTip>
       </div>
-      <FieldTip id="facts" label="Must-keep facts" tip={tips.facts} error={err("facts")}>
-        <Textarea {...bind("facts")} rows={4} placeholder="One fact per line" />
+      <FieldTip id="facts" label={t("ui.brief.facts")} tip={t("ui.brief.tips.facts")} error={err("facts")}>
+        <Textarea {...bind("facts")} rows={4} placeholder={t("ui.brief.placeholders.facts")} />
       </FieldTip>
-      <FieldTip id="links" label="Reference links" tip={tips.links} error={err("links")}>
-        <Textarea {...bind("links")} rows={2} />
+      <FieldTip id="links" label={t("ui.brief.links")} tip={t("ui.brief.tips.links")} error={err("links")}>
+        <Textarea {...bind("links")} rows={2} placeholder={t("ui.brief.placeholders.links")} />
       </FieldTip>
-      <FieldTip id="call_to_action" label="Call to action" tip={tips.cta} error={err("call_to_action")}>
-        <Input {...bind("call_to_action")} />
+      <FieldTip id="call_to_action" label={t("ui.brief.cta")} tip={t("ui.brief.tips.cta")} error={err("call_to_action")}>
+        <Input {...bind("call_to_action")} placeholder={t("ui.brief.placeholders.cta")} />
       </FieldTip>
       <div className="grid gap-5 sm:grid-cols-2">
-        <FieldTip id="voice" label="Voice" tip={tips.voice} error={err("voice")}>
+        <FieldTip id="voice" label={t("ui.brief.voice")} tip={t("ui.brief.tips.voice")} error={err("voice")}>
           {choose("voice", [
-            { value: "none", label: "Silent" },
-            { value: "tts", label: "Local text to speech" },
-            { value: "upload", label: "Upload a WAV" },
+            { value: "none", label: t("ui.brief.voiceNone") },
+            { value: "tts", label: t("ui.brief.voiceTts") },
+            { value: "upload", label: t("ui.brief.voiceUpload") },
           ])}
         </FieldTip>
-        <FieldTip id="music_license" label="Music license" tip={tips.music} error={err("music_license")}>
-          <Input {...bind("music_license")} placeholder="Leave empty to ship without a bed" />
+        <FieldTip id="music_license" label={t("ui.brief.music")} tip={t("ui.brief.tips.music")} error={err("music_license")}>
+          <Input {...bind("music_license")} placeholder={t("ui.brief.placeholders.music")} />
         </FieldTip>
       </div>
       {form.data.voice === "upload" ? (
-        <FieldTip id="voice_file" label="Voice recording (WAV)" tip={tips.voiceFile} error={err("voice_file")}>
+        <FieldTip id="voice_file" label={t("ui.brief.voiceFile")} tip={t("ui.brief.tips.voiceFile")} error={err("voice_file")}>
           <Input
             id="voice_file"
             type="file"
@@ -133,7 +119,7 @@ export default function BriefForm({ styles, ratios }: Props) {
         </FieldTip>
       ) : null}
       <Button type="submit" disabled={form.processing}>
-        Render
+        {t("ui.brief.render")}
       </Button>
     </form>
   );
