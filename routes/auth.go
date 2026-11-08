@@ -37,9 +37,12 @@ func Auth(r *router.Router, app *vukem.App) error {
 	r.Get("/login", h.ShowLogin).Name("login").Use(guest)
 	r.Post("/logout", h.Logout).Name("logout").Use(required)
 
-	// "/" is the product dashboard. "/dashboard" stays as the redirect target.
+	// "/" is the dashboard and needs a session; "/dashboard" only redirects there
+	// so old bookmarks keep working.
 	r.Get("/", jobsH.Dashboard).Name("home").Use(required, verified, allowlisted(acc))
-	r.Get("/dashboard", jobsH.Dashboard).Name("dashboard").Use(required, verified, allowlisted(acc))
+	r.Get("/dashboard", func(c *web.Ctx) error {
+		return c.RedirectStatus(http.StatusMovedPermanently, "/")
+	}).Name("dashboard")
 
 	return nil
 }

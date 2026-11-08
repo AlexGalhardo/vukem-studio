@@ -29,8 +29,8 @@ func TestSocialSignUpAndLogin(t *testing.T) {
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 
 	c := app.Client(t)
-	signIn(t, c).AssertRedirect("/dashboard")
-	c.Get("/dashboard").AssertOK().AssertSee("Aleex").AssertSee("verified")
+	signIn(t, c).AssertRedirect("/")
+	c.Get("/").AssertOK().AssertSee("Aleex").AssertSee("verified")
 
 	vukemtest.AssertDatabaseCount(t, app, "users", 1)
 	vukemtest.AssertDatabaseHas(t, app, "social_accounts", map[string]any{
@@ -38,7 +38,7 @@ func TestSocialSignUpAndLogin(t *testing.T) {
 	})
 
 	// Signing in again reuses the link.
-	signIn(t, app.Client(t)).AssertRedirect("/dashboard")
+	signIn(t, app.Client(t)).AssertRedirect("/")
 	vukemtest.AssertDatabaseCount(t, app, "users", 1)
 
 	app.Client(t).Get("/auth/myspace/redirect").AssertNotFound()
@@ -61,13 +61,13 @@ func TestSocialLinkEndsSquatterAccess(t *testing.T) {
 	userID := apiTokenFor(t, app, owner)
 
 	c := app.Client(t)
-	signIn(t, c).AssertRedirect("/dashboard")
-	c.Get("/dashboard").AssertOK()
+	signIn(t, c).AssertRedirect("/")
+	c.Get("/").AssertOK()
 
 	// Revoked, not deleted: the token stays listed with revoked_at.
 	vukemtest.AssertDatabaseMissing(t, app, "access_tokens", map[string]any{"user_id": userID, "revoked_at": nil})
 	vukemtest.AssertDatabaseHas(t, app, "access_tokens", map[string]any{"user_id": userID})
-	squatter.Get("/dashboard").AssertRedirect("/login")
+	squatter.Get("/").AssertRedirect("/login")
 }
 
 func TestSocialRefusesAccountsOutsideTheAllowlist(t *testing.T) {
@@ -85,7 +85,7 @@ func TestSocialRefusesAccountsOutsideTheAllowlist(t *testing.T) {
 			c := app.Client(t)
 
 			signIn(t, c).AssertRedirect("/login")
-			c.Get("/dashboard").AssertRedirect("/login")
+			c.Get("/").AssertRedirect("/login")
 			vukemtest.AssertDatabaseCount(t, app, "users", 0)
 			vukemtest.AssertDatabaseCount(t, app, "social_accounts", 0)
 		})
@@ -100,8 +100,8 @@ func TestSocialAllowsBothOwners(t *testing.T) {
 			social.User{ID: "gh-5", Email: email, EmailVerified: true, Name: "Owner"})})
 
 		c := app.Client(t)
-		signIn(t, c).AssertRedirect("/dashboard")
-		c.Get("/dashboard").AssertOK()
+		signIn(t, c).AssertRedirect("/")
+		c.Get("/").AssertOK()
 	}
 }
 
@@ -113,6 +113,6 @@ func TestSessionOfDisallowedUserIsEnded(t *testing.T) {
 	c := app.Client(t)
 	register(t, app, c, "old@example.com")
 
-	c.Get("/dashboard").AssertRedirect("/login")
+	c.Get("/").AssertRedirect("/login")
 	c.Get("/jobs").AssertRedirect("/login")
 }
