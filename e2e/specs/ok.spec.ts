@@ -52,7 +52,7 @@ test.describe("signed in", () => {
     await page.goto("/jobs/create");
     await page.getByRole("button", { name: "Render" }).click();
 
-    await expect(page.locator("p.text-red-600").first()).toBeVisible();
+    await expect(page.locator("p.text-destructive").first()).toBeVisible();
     await expect(page).toHaveURL(/\/jobs\/create$/);
   });
 
