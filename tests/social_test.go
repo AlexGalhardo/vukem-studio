@@ -25,12 +25,12 @@ func signIn(t *testing.T, c *vukemtest.Client) *vukemtest.Response {
 func TestSocialSignUpAndLogin(t *testing.T) {
 	t.Parallel()
 
-	user := social.User{ID: "gh-1", Email: "Lia@Example.com", EmailVerified: true, Name: "Lia"}
+	user := social.User{ID: "gh-1", Email: "Aleexgvieira@Gmail.com", EmailVerified: true, Name: "Aleex"}
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 
 	c := app.Client(t)
 	signIn(t, c).AssertRedirect("/dashboard")
-	c.Get("/dashboard").AssertOK().AssertSee("Lia").AssertSee("verified")
+	c.Get("/dashboard").AssertOK().AssertSee("Aleex").AssertSee("verified")
 
 	vukemtest.AssertDatabaseCount(t, app, "users", 1)
 	vukemtest.AssertDatabaseHas(t, app, "social_accounts", map[string]any{
@@ -51,14 +51,14 @@ func TestSocialSignUpAndLogin(t *testing.T) {
 func TestSocialLinkEndsSquatterAccess(t *testing.T) {
 	t.Parallel()
 
-	victim := social.User{ID: "gh-9", Email: "vic@example.com", EmailVerified: true, Name: "Vic"}
+	victim := social.User{ID: "gh-9", Email: owner, EmailVerified: true, Name: "Vic"}
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(victim)})
 
-	seedUser(t, app, "vic@example.com", false)
+	seedUser(t, app, owner, false)
 	squatter := app.Client(t)
-	actAs(t, app, squatter, "vic@example.com")
+	actAs(t, app, squatter, owner)
 
-	userID := apiTokenFor(t, app, "vic@example.com")
+	userID := apiTokenFor(t, app, owner)
 
 	c := app.Client(t)
 	signIn(t, c).AssertRedirect("/dashboard")
@@ -70,13 +70,49 @@ func TestSocialLinkEndsSquatterAccess(t *testing.T) {
 	squatter.Get("/dashboard").AssertRedirect("/login")
 }
 
-func TestSocialDoesNotTakeOverUnverifiedEmails(t *testing.T) {
+func TestSocialRefusesAccountsOutsideTheAllowlist(t *testing.T) {
 	t.Parallel()
 
-	user := social.User{ID: "gh-2", Email: "owner@example.com", EmailVerified: false, Name: "Mallory"}
-	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
+	for name, user := range map[string]social.User{
+		"other email":      {ID: "gh-2", Email: "mallory@gmail.com", EmailVerified: true, Name: "Mallory"},
+		"unverified email": {ID: "gh-3", Email: owner, EmailVerified: false, Name: "Mallory"},
+		"empty email":      {ID: "gh-4", Email: "", EmailVerified: true, Name: "Mallory"},
+	} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 
-	seedUser(t, app, "owner@example.com", true)
-	signIn(t, app.Client(t)).AssertStatus(409)
-	vukemtest.AssertDatabaseCount(t, app, "social_accounts", 0)
+			app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
+			c := app.Client(t)
+
+			signIn(t, c).AssertRedirect("/login")
+			c.Get("/dashboard").AssertRedirect("/login")
+			vukemtest.AssertDatabaseCount(t, app, "users", 0)
+			vukemtest.AssertDatabaseCount(t, app, "social_accounts", 0)
+		})
+	}
+}
+
+func TestSocialAllowsBothOwners(t *testing.T) {
+	t.Parallel()
+
+	for _, email := range []string{owner, partner} {
+		app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(
+			social.User{ID: "gh-5", Email: email, EmailVerified: true, Name: "Owner"})})
+
+		c := app.Client(t)
+		signIn(t, c).AssertRedirect("/dashboard")
+		c.Get("/dashboard").AssertOK()
+	}
+}
+
+// A session from before the allowlist cannot reach the app.
+func TestSessionOfDisallowedUserIsEnded(t *testing.T) {
+	t.Parallel()
+
+	app := vukemtest.New(t, bootstrap.New)
+	c := app.Client(t)
+	register(t, app, c, "old@example.com")
+
+	c.Get("/dashboard").AssertRedirect("/login")
+	c.Get("/jobs").AssertRedirect("/login")
 }

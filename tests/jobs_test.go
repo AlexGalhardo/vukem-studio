@@ -36,7 +36,7 @@ func TestBriefValidation(t *testing.T) {
 
 	app := vukemtest.New(t, bootstrap.New)
 	c := app.Client(t).Inertia("").WithHeader("Referer", "/jobs/create")
-	register(t, app, c, "brief@example.com")
+	register(t, app, c, owner)
 
 	c.PostJSON("/jobs", map[string]any{"audience": "neighbors"}).AssertRedirect("/jobs/create")
 	c.Get("/jobs/create").AssertInertia("Jobs/Create").HasProp("errors.goal")
@@ -55,11 +55,11 @@ func TestJobsDoNotLeakAcrossUsers(t *testing.T) {
 	jobs.UsePlanner(app.App, rejectPlanner{})
 
 	ana := app.Client(t).Inertia("")
-	register(t, app, ana, "ana-jobs@example.com")
+	register(t, app, ana, partner)
 	ana.PostJSON("/jobs", validBrief(map[string]any{"subject": "Ana harbor"})).AssertRedirect("/jobs/1")
 
 	bia := app.Client(t).Inertia("")
-	register(t, app, bia, "bia-jobs@example.com")
+	register(t, app, bia, owner)
 	bia.PostJSON("/jobs", validBrief(map[string]any{"subject": "Bia market"})).AssertRedirect("/jobs/2")
 
 	bia.Get("/jobs").AssertInertia("Jobs/Index").HasProp("jobs", 1).PropEquals("jobs.0.subject", "Bia market")
@@ -77,7 +77,7 @@ func TestInvalidModelAndMissingFactAndDuration(t *testing.T) {
 		app := vukemtest.New(t, bootstrap.New)
 		jobs.UsePlanner(app.App, rejectPlanner{})
 		c := app.Client(t).Inertia("")
-		register(t, app, c, "model@example.com")
+		register(t, app, c, owner)
 
 		c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 		page := c.Get("/jobs/1").AssertInertia("Jobs/Show")
@@ -102,7 +102,7 @@ func TestInvalidModelAndMissingFactAndDuration(t *testing.T) {
 		app := vukemtest.New(t, bootstrap.New)
 		jobs.UsePlanner(app.App, dropFacts{})
 		c := app.Client(t).Inertia("")
-		register(t, app, c, "fact@example.com")
+		register(t, app, c, owner)
 		c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 
 		page := c.Get("/jobs/1").AssertOK().AssertInertia("Jobs/Show")
@@ -122,7 +122,7 @@ func TestInvalidModelAndMissingFactAndDuration(t *testing.T) {
 		app := vukemtest.New(t, bootstrap.New)
 		jobs.UsePlanner(app.App, durationPlanner{seconds: 99})
 		c := app.Client(t).Inertia("")
-		register(t, app, c, "duration@example.com")
+		register(t, app, c, owner)
 		c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 		c.Get("/jobs/1").AssertInertia("Jobs/Show").PropEquals("job.status", "failed")
 	})
@@ -144,7 +144,7 @@ func TestTruncatedAndKilledEncoder(t *testing.T) {
 			app := vukemtest.New(t, bootstrap.New)
 			jobs.UseRenderer(app.App, tc.r)
 			c := app.Client(t).Inertia("")
-			register(t, app, c, tc.name+"@example.com")
+			register(t, app, c, owner)
 			c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 			c.Get("/jobs/1").AssertInertia("Jobs/Show").PropEquals("job.status", "failed")
 			c.Get("/jobs/1/download").AssertNotFound()
@@ -158,7 +158,7 @@ func TestSilentFixture(t *testing.T) {
 	dir := t.TempDir()
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: map[string]string{"STUDIO_STORAGE": dir}})
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "silent@example.com")
+	register(t, app, c, owner)
 
 	c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 
@@ -179,7 +179,7 @@ func TestSilentFixture(t *testing.T) {
 
 	page.PropEquals("download", true)
 
-	body := download(t, app, "silent@example.com", "/jobs/1/download")
+	body := download(t, app, owner, "/jobs/1/download")
 	path := filepath.Join(t.TempDir(), "out.mp4")
 
 	if err := os.WriteFile(path, body, 0o644); err != nil {
@@ -205,7 +205,7 @@ func TestSilentFixture(t *testing.T) {
 		t.Fatalf("encode args = %s (%v)", args, err)
 	}
 
-	srt := download(t, app, "silent@example.com", "/jobs/1/captions.srt")
+	srt := download(t, app, owner, "/jobs/1/captions.srt")
 	if !bytes.Contains(srt, []byte("the harbor opens at 6")) {
 		t.Fatalf("srt = %s", srt)
 	}
@@ -237,10 +237,10 @@ func TestRerunKeepsThePreviousFile(t *testing.T) {
 	dir := t.TempDir()
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: map[string]string{"STUDIO_STORAGE": dir}})
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "rerun@example.com")
+	register(t, app, c, owner)
 	c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 
-	before := download(t, app, "rerun@example.com", "/jobs/1/download")
+	before := download(t, app, owner, "/jobs/1/download")
 	jobs.UseRenderer(app.App, killedRenderer{})
 	c.PostJSON("/jobs/1/retry", map[string]any{}).AssertRedirect("/jobs/1")
 
@@ -252,7 +252,7 @@ func TestRerunKeepsThePreviousFile(t *testing.T) {
 		t.Fatalf("failure = %v", failure)
 	}
 
-	after := download(t, app, "rerun@example.com", "/jobs/1/download")
+	after := download(t, app, owner, "/jobs/1/download")
 	if !bytes.Equal(before, after) {
 		t.Fatal("the failed re-run replaced the ready file")
 	}
@@ -273,7 +273,7 @@ func TestRetryDoesNotLeaveASecondFile(t *testing.T) {
 	dir := t.TempDir()
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: map[string]string{"STUDIO_STORAGE": dir}})
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "twice@example.com")
+	register(t, app, c, owner)
 	c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 	c.PostJSON("/jobs/1/retry", map[string]any{}).AssertRedirect("/jobs/1")
 	c.Get("/jobs/1").AssertInertia("Jobs/Show").PropEquals("job.status", "ready")
@@ -308,19 +308,13 @@ func assertSpoken(t *testing.T, license string, wantBed bool) {
 	dir := t.TempDir()
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: map[string]string{"STUDIO_STORAGE": dir}})
 	c := app.Client(t).Inertia("")
-	email := "spoken-bed@example.com"
-
-	if license == "" {
-		email = "spoken-none@example.com"
-	}
-
-	register(t, app, c, email)
+	register(t, app, c, owner)
 
 	brief := validBrief(map[string]any{"duration": 5, "voice": "tts", "music_license": license})
 	c.PostJSON("/jobs", brief).AssertRedirect("/jobs/1")
 	c.Get("/jobs/1").AssertInertia("Jobs/Show").PropEquals("job.status", "ready")
 
-	body := download(t, app, email, "/jobs/1/download")
+	body := download(t, app, owner, "/jobs/1/download")
 	path := filepath.Join(t.TempDir(), "spoken.mp4")
 
 	if err := os.WriteFile(path, body, 0o644); err != nil {
@@ -341,7 +335,7 @@ func assertSpoken(t *testing.T, license string, wantBed bool) {
 		t.Fatalf("loudness = %.2f LUFS %.2f dBTP", integrated, peak)
 	}
 
-	srt := string(download(t, app, email, "/jobs/1/captions.srt"))
+	srt := string(download(t, app, owner, "/jobs/1/captions.srt"))
 	if !strings.Contains(srt, "harbor") {
 		t.Fatalf("srt = %s", srt)
 	}
@@ -379,7 +373,7 @@ func TestUploadThatDoesNotFit(t *testing.T) {
 
 	app := vukemtest.New(t, bootstrap.New)
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "upload@example.com")
+	register(t, app, c, owner)
 
 	wav := filepath.Join(t.TempDir(), "short.wav")
 	if err := studio.WriteWAV(wav, studio.Synthesize("hello", 1, 48000), 48000); err != nil {

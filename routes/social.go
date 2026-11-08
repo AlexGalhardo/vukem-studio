@@ -1,8 +1,11 @@
 package routes
 
 import (
+	"errors"
+
 	"github.com/AlexGalhardo/vukem"
 	"github.com/AlexGalhardo/vukem/auth"
+	"github.com/AlexGalhardo/vukem/inertia"
 	"github.com/AlexGalhardo/vukem/router"
 	"github.com/AlexGalhardo/vukem/web"
 
@@ -42,6 +45,12 @@ func Social(r *router.Router, app *vukem.App) error {
 		}
 
 		u, err := acc.FindOrCreateFromSocial(c.Context(), su)
+		if errors.Is(err, accounts.ErrNotAllowed) {
+			inertia.Flash(c, "error", "This Google account is not allowed to use Studio.")
+
+			return c.Redirect("/login")
+		}
+
 		if err != nil {
 			return err
 		}

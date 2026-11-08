@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/AlexGalhardo/vukem"
@@ -16,6 +17,17 @@ import (
 
 	"github.com/AlexGalhardo/vukem-studio/app/models"
 )
+
+// AllowedEmails are the only Google accounts that may use Studio.
+var AllowedEmails = []string{"aleexgvieira@gmail.com", "aleexgalhardoo@gmail.com"}
+
+// ErrNotAllowed means the Google account is unverified or not in AllowedEmails.
+var ErrNotAllowed = errors.New("accounts: this Google account is not allowed")
+
+// Allowed reports whether email, compared case-insensitively, may sign in.
+func Allowed(email string) bool {
+	return slices.Contains(AllowedEmails, strings.ToLower(strings.TrimSpace(email)))
+}
 
 // NewSocial configures the providers listed in names from
 // SOCIAL_<NAME>_CLIENT_ID and SOCIAL_<NAME>_CLIENT_SECRET; the callback is
@@ -110,6 +122,11 @@ func NewSocial(app *vukem.App, names ...string) (*social.Social, error) {
 // FindOrCreateFromSocial returns the user linked to su, linking by email
 // only when the provider verified it, or creating a new user.
 func (a *Accounts) FindOrCreateFromSocial(ctx context.Context, su social.User) (models.User, error) {
+	// Before any lookup or insert: a refused account leaves no row behind.
+	if !su.EmailVerified || !Allowed(su.Email) {
+		return models.User{}, ErrNotAllowed
+	}
+
 	links := orm.QueryOf[models.SocialAccount](a.DB).Where("provider", su.Provider)
 
 	link, err := links.Where("provider_id", su.ID).First(ctx)

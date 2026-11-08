@@ -16,6 +16,12 @@ import (
 // seedUser stores a password account directly. The app has no route that
 // creates one: Google creates users, and this stands for an account an older
 // release registered with a password.
+// The two addresses accounts.AllowedEmails lets in.
+const (
+	owner   = "aleexgvieira@gmail.com"
+	partner = "aleexgalhardoo@gmail.com"
+)
+
 func seedUser(t *testing.T, app *vukemtest.App, email string, verified bool) models.User {
 	t.Helper()
 
