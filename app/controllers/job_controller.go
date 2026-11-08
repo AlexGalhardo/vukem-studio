@@ -37,19 +37,54 @@ func NewJobController(app *vukem.App, acc *accounts.Accounts) *JobController {
 
 // Index lists the signed-in user's jobs.
 func (h *JobController) Index(c *web.Ctx) error {
-	user, err := h.user(c)
+	items, err := h.items(c, 0)
 	if err != nil {
 		return err
+	}
+
+	if c.WantsJSON() {
+		return c.JSON(http.StatusOK, map[string]any{"data": items})
+	}
+
+	return inertia.Render(c, "Jobs/Index", inertia.Props{"jobs": items})
+}
+
+// Dashboard shows the brief form and the latest jobs of the signed-in user.
+func (h *JobController) Dashboard(c *web.Ctx) error {
+	items, err := h.items(c, 5)
+	if err != nil {
+		return err
+	}
+
+	return inertia.Render(c, "Dashboard", inertia.Props{
+		"jobs":   items,
+		"styles": studio.Styles,
+		"ratios": briefRatios,
+	})
+}
+
+var briefRatios = []string{"9:16", "1:1", "4:5", "16:9"}
+
+// items returns the user's jobs, newest first; limit 0 means all.
+func (h *JobController) items(c *web.Ctx, limit int) ([]map[string]any, error) {
+	user, err := h.user(c)
+	if err != nil {
+		return nil, err
 	}
 
 	db, err := h.app.DB()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	rows, err := orm.QueryOf[models.Job](db).Where("user_id", user.ID).OrderBy("id", orm.Desc).Get(c.Context())
+	q := orm.QueryOf[models.Job](db).Where("user_id", user.ID).OrderBy("id", orm.Desc)
+	if limit > 0 {
+		q = q.Limit(limit)
+	}
+
+	rows, err := q.Get(c.Context())
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	items := make([]map[string]any, 0, len(rows))
@@ -64,18 +99,14 @@ func (h *JobController) Index(c *web.Ctx) error {
 		})
 	}
 
-	if c.WantsJSON() {
-		return c.JSON(http.StatusOK, map[string]any{"data": items})
-	}
-
-	return inertia.Render(c, "Jobs/Index", inertia.Props{"jobs": items})
+	return items, nil
 }
 
 // Create shows the brief form.
 func (h *JobController) Create(c *web.Ctx) error {
 	return inertia.Render(c, "Jobs/Create", inertia.Props{
 		"styles": studio.Styles,
-		"ratios": []string{"9:16", "1:1", "4:5", "16:9"},
+		"ratios": briefRatios,
 	})
 }
 

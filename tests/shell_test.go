@@ -18,7 +18,7 @@ func TestSignedInHomeIsDashboard(t *testing.T) {
 	c := app.Client(t)
 	register(t, app, c, owner)
 
-	c.Get("/").AssertOK().AssertInertia("Dashboard").PropEquals("auth.user.email", owner)
+	c.Get("/").AssertOK().AssertInertia("Dashboard").HasProp("jobs", 0).PropEquals("auth.user.email", owner)
 }
 
 func TestLogoutReturnsToLogin(t *testing.T) {

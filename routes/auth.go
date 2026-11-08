@@ -11,6 +11,7 @@ import (
 	"github.com/AlexGalhardo/vukem/web"
 
 	"github.com/AlexGalhardo/vukem-studio/app/accounts"
+	"github.com/AlexGalhardo/vukem-studio/app/controllers"
 	"github.com/AlexGalhardo/vukem-studio/app/controllers/account"
 )
 
@@ -24,6 +25,7 @@ func Auth(r *router.Router, app *vukem.App) error {
 	}
 
 	h := account.New(acc)
+	jobsH := controllers.NewJobController(app, acc)
 	guest := auth.Guest(acc.Web)
 	required := auth.Required(acc.Web)
 	// Google verifies the address before an account exists, so every user
@@ -36,8 +38,8 @@ func Auth(r *router.Router, app *vukem.App) error {
 	r.Post("/logout", h.Logout).Name("logout").Use(required)
 
 	// "/" is the product dashboard. "/dashboard" stays as the redirect target.
-	r.Get("/", h.Dashboard).Name("home").Use(required, verified, allowlisted(acc))
-	r.Get("/dashboard", h.Dashboard).Name("dashboard").Use(required, verified, allowlisted(acc))
+	r.Get("/", jobsH.Dashboard).Name("home").Use(required, verified, allowlisted(acc))
+	r.Get("/dashboard", jobsH.Dashboard).Name("dashboard").Use(required, verified, allowlisted(acc))
 
 	return nil
 }
