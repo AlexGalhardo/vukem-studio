@@ -62,7 +62,7 @@ func Social(r *router.Router, app *vukem.App) error {
 		// Back to the page that asked for the login, such as a verification link.
 		target, _ := c.Session().Pull(auth.IntendedKey).(string)
 
-		return c.Redirect(web.SafeRedirect(c.Request(), target, "/dashboard"))
+		return c.Redirect(web.SafeRedirect(c.Request(), target, "/"))
 	}
 
 	r.Get("/auth/{provider}/callback", callback).Name("social.callback")

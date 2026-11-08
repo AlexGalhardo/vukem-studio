@@ -40,7 +40,7 @@ func TestSessionCookieFlags(t *testing.T) {
 	c := app.Client(t)
 
 	res := signIn(t, c)
-	res.AssertRedirect("/dashboard")
+	res.AssertRedirect("/")
 
 	var session *http.Cookie
 	for _, ck := range res.Recorder().Result().Cookies() {
@@ -63,6 +63,6 @@ func TestGoogleSignInReachesHome(t *testing.T) {
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 	c := app.Client(t)
 
-	signIn(t, c).AssertRedirect("/dashboard")
+	signIn(t, c).AssertRedirect("/")
 	c.Get("/").AssertOK().AssertSee("Gia").AssertInertia("Dashboard")
 }
