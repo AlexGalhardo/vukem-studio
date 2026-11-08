@@ -17,7 +17,7 @@
 
 Studio turns a video brief into a rendered MP4 for Shorts, Reels, and other short social cuts. The dashboard collects the goal, the audience, and the visual style. A compiler writes the prompt. A worker renders the file with open source tools.
 
-The application is a [Vukem](https://vukem.dev) app: Inertia, React, and a sidebar. `/` is the dashboard. A signed-out visitor goes to `/login`, which has one Google button. **Videos** is the library. A brief compiles a prompt, a local planner writes the scene plan, and FFmpeg writes one MP4. The job stores the prompt. Download is offered only when the check passes. The documentation site, the research, and the skill kits live in the same repository. The public hostname is still the docs site.
+The application is a [Vukem](https://vukem.dev) app: Inertia, React, and a sidebar. `/` is the dashboard. A signed-out visitor goes to `/login`, which has one Google button; only two allowlisted Google accounts (`accounts.AllowedEmails`) may sign in. **Videos** is the library. A brief compiles a prompt, a local planner writes the scene plan, and FFmpeg writes one MP4. The job stores the prompt. Download is offered only when the check passes. The documentation site, the research, and the skill kits live in the same repository. The public hostname is still the docs site.
 
 Opening [studio.vukem.dev](https://studio.vukem.dev) lands on the technical documentation.
 
