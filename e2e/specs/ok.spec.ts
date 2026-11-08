@@ -36,9 +36,9 @@ test.describe("signed out", () => {
 test.describe("signed in", () => {
   test("sidebar links and logout", async ({ page }) => {
     await signIn(page);
-    await expect(page.getByRole("navigation", { name: "Dashboard" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeVisible();
 
-    await page.getByRole("navigation", { name: "Dashboard" }).getByRole("link").nth(1).click();
+    await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link").nth(1).click();
     await expect(page).toHaveURL(/\/jobs/);
 
     await page.getByRole("button", { name: "Log out" }).click();
