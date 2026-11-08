@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useT } from "@/lib/i18n";
 
 const isDark = (): boolean => typeof document !== "undefined" && document.documentElement.classList.contains("dark");
 
 // ThemeToggle switches the "dark" class on <html> and remembers the choice in
 // localStorage.theme; resources/views/app.html applies it before the first paint.
 export default function ThemeToggle({ className = "" }: { className?: string }) {
+  const t = useT();
   const [dark, setDark] = useState(false);
 
   useEffect(() => setDark(isDark()), []);
@@ -24,7 +26,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
     setDark(next);
   };
 
-  const label = dark ? "Switch to light theme" : "Switch to dark theme";
+  const label = dark ? t("ui.theme.light") : t("ui.theme.dark");
 
   return (
     <Tooltip>

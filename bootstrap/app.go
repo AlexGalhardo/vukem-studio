@@ -27,6 +27,7 @@ func New(opts ...vukem.Option) (*vukem.App, error) {
 		vukem.WithViews(resources.Views()),
 		vukem.WithVite(resources.Public()),
 		vukem.WithInertia(inertia.Config{}),
+		vukem.WithTranslations(resources.Lang()),
 	}
 
 	for _, fn := range routes.All() {

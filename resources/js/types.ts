@@ -46,6 +46,8 @@ export interface VideoJob extends JobListItem {
 
 export interface SharedProps {
   appName: string;
+  // From the sidebar_state cookie (routes/web.go shareProps).
+  sidebarOpen?: boolean;
   errors: Record<string, string>;
   // Present after vukem install:auth.
   auth?: { user: User | null };
