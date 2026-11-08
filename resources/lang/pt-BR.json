@@ -1,0 +1,154 @@
+{
+  "ui": {
+    "nav": {
+      "label": "Navegação principal",
+      "dashboard": "Painel",
+      "videos": "Vídeos",
+      "logout": "Sair",
+      "toggleSidebar": "Mostrar ou esconder a barra lateral",
+      "language": "Idioma",
+      "languages": {
+        "en": "English",
+        "pt-BR": "Português (Brasil)"
+      }
+    },
+    "theme": {
+      "light": "Mudar para o tema claro",
+      "dark": "Mudar para o tema escuro"
+    },
+    "login": {
+      "title": "Entrar",
+      "kicker": "Do briefing ao vídeo",
+      "headline": "Transforme um briefing em um",
+      "headlineAccent": "vídeo vertical curto.",
+      "pitch": "Descreva o que você quer dizer. O Studio planeja as cenas, adiciona legendas e renderiza um arquivo pronto para postar.",
+      "step1": "Escreva um briefing curto: objetivo, público, assunto.",
+      "step2": "Receba um corte planejado com legendas, voz e uma revisão.",
+      "step3": "Baixe um MP4 vertical pronto para postar.",
+      "restricted": "Espaço privado / acesso restrito",
+      "welcome": "Bem-vindo ao Studio",
+      "heading": "Entre no seu espaço de trabalho",
+      "help": "Entre com a conta Google autorizada pelo dono.",
+      "google": "Continuar com Google"
+    },
+    "dashboard": {
+      "title": "Painel",
+      "hello": "Olá, {name}",
+      "lead": "O formulário é o briefing. O servidor monta o prompt, planeja o corte e renderiza um arquivo. Um corte sem narração não precisa de chave de API.",
+      "newVideo": "Novo vídeo",
+      "newVideoHelp": "Passe o mouse ou o foco nos ícones de informação para ver como preencher cada campo.",
+      "recent": "Vídeos recentes",
+      "seeAll": "Ver todos os vídeos",
+      "empty": "Nenhum vídeo ainda.",
+      "status": {
+        "queued": "Na fila",
+        "rendering": "Renderizando",
+        "ready": "Pronto",
+        "failed": "Falhou"
+      }
+    },
+    "brief": {
+      "showTip": "Mostrar dica",
+      "render": "Renderizar",
+      "goal": "Objetivo",
+      "audience": "Público",
+      "subject": "Oferta ou assunto",
+      "duration": "Duração (segundos)",
+      "ratio": "Proporção",
+      "style": "Estilo",
+      "language": "Idioma falado",
+      "facts": "Fatos obrigatórios",
+      "links": "Links de referência",
+      "cta": "Chamada para ação",
+      "voice": "Voz",
+      "voiceNone": "Sem narração",
+      "voiceTts": "Texto para fala local",
+      "voiceUpload": "Enviar um WAV",
+      "music": "Licença da música",
+      "voiceFile": "Gravação da voz (WAV)",
+      "tips": {
+        "goal": "O que quem assiste deve pensar, sentir ou fazer depois do vídeo. Uma frase, um resultado: \"Levar os vizinhos à feira de sábado\".",
+        "audience": "Quem assiste, em palavras simples: \"pais de crianças pequenas em Lisboa\". Um público específico define o vocabulário, o ritmo e o gancho.",
+        "subject": "A única coisa de que o vídeo trata, ou a oferta. Se você precisar de \"e\" duas vezes, divida em dois vídeos.",
+        "duration": "Duração em segundos, de 5 a 300. Vídeos verticais curtos prendem melhor a atenção entre 15 e 45 segundos; corte o que não vale o tempo.",
+        "ratio": "Formato do quadro. 9:16 para Reels, Shorts e TikTok (mantenha texto e rostos na área segura, longe da interface no topo e no rodapé). 1:1 e 4:5 para feeds, 16:9 para YouTube e a web.",
+        "style": "A receita visual que o planejador segue: tipos de plano, ritmo e legendas. Escolha o mais próximo do tom que você quer.",
+        "language": "Idioma da voz e das legendas, como um código: en ou pt. Legendas importam: a maioria assiste sem som.",
+        "facts": "Informações que o vídeo precisa manter, uma por linha: preços, datas, nomes, números. O planejador não inventa nem altera esses dados.",
+        "links": "Páginas com contexto extra, como a página do produto ou um artigo. São referências para você e para o plano, não imagens baixadas.",
+        "cta": "A única ação no final: \"Visite studio.exemplo\". Diga uma vez, com clareza, e deixe na tela tempo suficiente para ler.",
+        "voice": "Sem narração não exige nada e depende das legendas. Texto para fala local lê o roteiro neste servidor. Envie um WAV para usar sua própria gravação.",
+        "music": "Informe a licença ou a origem da trilha, como \"Pixabay 123\". Deixe vazio para enviar sem música; nunca use faixas que você não pode licenciar.",
+        "voiceFile": "Uma gravação WAV da narração. Grave em um lugar silencioso, perto do microfone, e mantenha perto da duração escolhida."
+      },
+      "placeholders": {
+        "goal": "Levar os vizinhos à feira de sábado",
+        "audience": "Pais de crianças pequenas em São Paulo",
+        "subject": "Banca de frutas orgânicas, 20% off neste fim de semana",
+        "language": "en ou pt",
+        "facts": "Um fato por linha, ex.:\nAberta aos sábados das 8h às 13h\n20% off até domingo",
+        "links": "https://exemplo.com/produto",
+        "cta": "Visite a feira neste sábado",
+        "music": "Pixabay 123, ou deixe vazio para ficar sem música"
+      }
+    },
+    "tips": {
+      "title": "Dicas",
+      "lead": "Regras curtas para bons vídeos curtos.",
+      "videoTab": "Bons vídeos",
+      "techniqueTab": "Técnicas",
+      "video": {
+        "hook": {
+          "term": "Gancho em 2-3 segundos",
+          "text": "Abra com o resultado, uma pergunta ou movimento. Sem logo, sem saudação."
+        },
+        "oneIdea": {
+          "term": "Uma ideia por vídeo",
+          "text": "Uma única mensagem e uma única chamada para ação no final."
+        },
+        "captions": {
+          "term": "Legendas para assistir sem som",
+          "text": "A maioria rola o feed sem som. Linhas curtas e com alto contraste."
+        },
+        "pacing": {
+          "term": "Ritmo dos cortes",
+          "text": "Troque a imagem a cada 2-4 segundos em conteúdo rápido; segure mais para um detalhe ser percebido."
+        },
+        "safeArea": {
+          "term": "Respeite a área segura",
+          "text": "Em 9:16, mantenha texto e rostos longe do topo e do rodapé, onde ficam os botões dos apps."
+        },
+        "loudness": {
+          "term": "Volume",
+          "text": "Masterize a mixagem perto de -14 LUFS (pico em torno de -1 dBTP) para as plataformas não abaixarem seu áudio."
+        }
+      },
+      "technique": {
+        "thirds": {
+          "term": "Regra dos terços",
+          "text": "Coloque o assunto em uma linha dos terços, não no centro; deixe espaço na direção para onde ele olha."
+        },
+        "shots": {
+          "term": "Plano aberto, médio e close",
+          "text": "O aberto situa o lugar, o médio conduz a ação, o close mostra emoção ou um detalhe. Combine os três."
+        },
+        "jl": {
+          "term": "Cortes J e L",
+          "text": "Deixe o áudio da próxima cena começar antes da imagem (J) ou o áudio anterior continuar sobre ela (L). Suaviza os cortes."
+        },
+        "broll": {
+          "term": "B-roll",
+          "text": "Cubra falas ou textos com imagens relevantes para esconder jump cuts e mostrar o que você descreve."
+        },
+        "colour": {
+          "term": "Consistência de cor",
+          "text": "Use um único visual entre as cenas: mesmo balanço de branco e contraste, uma paleta pequena."
+        },
+        "audio": {
+          "term": "Áudio em primeiro lugar",
+          "text": "O público perdoa imagem suave, não som ruim. Grave perto, corte silêncios, abaixe a música sob a voz."
+        }
+      }
+    }
+  }
+}

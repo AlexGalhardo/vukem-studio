@@ -1,0 +1,154 @@
+{
+  "ui": {
+    "nav": {
+      "label": "Main navigation",
+      "dashboard": "Dashboard",
+      "videos": "Videos",
+      "logout": "Log out",
+      "toggleSidebar": "Show or hide the sidebar",
+      "language": "Language",
+      "languages": {
+        "en": "English",
+        "pt-BR": "Português (Brasil)"
+      }
+    },
+    "theme": {
+      "light": "Switch to light theme",
+      "dark": "Switch to dark theme"
+    },
+    "login": {
+      "title": "Log in",
+      "kicker": "Brief to video",
+      "headline": "Turn a brief into a",
+      "headlineAccent": "short vertical video.",
+      "pitch": "Describe what you want to say. Studio plans the shots, adds captions and renders a file you can post.",
+      "step1": "Write a short brief: goal, audience, subject.",
+      "step2": "Get a planned cut with captions, voice and a check.",
+      "step3": "Download a vertical MP4 ready to post.",
+      "restricted": "Private workspace / restricted access",
+      "welcome": "Welcome to Studio",
+      "heading": "Sign in to your workspace",
+      "help": "Sign in with the Google account authorized by the owner.",
+      "google": "Continue with Google"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "hello": "Hello, {name}",
+      "lead": "The form is the brief. The server compiles the prompt, plans the cut and renders a file. A silent cut needs no API key.",
+      "newVideo": "New video",
+      "newVideoHelp": "Hover or focus the info icons for how to fill each field.",
+      "recent": "Recent videos",
+      "seeAll": "See all videos",
+      "empty": "No videos yet.",
+      "status": {
+        "queued": "Queued",
+        "rendering": "Rendering",
+        "ready": "Ready",
+        "failed": "Failed"
+      }
+    },
+    "brief": {
+      "showTip": "Show tip",
+      "render": "Render",
+      "goal": "Goal",
+      "audience": "Audience",
+      "subject": "Offer or subject",
+      "duration": "Duration (seconds)",
+      "ratio": "Aspect ratio",
+      "style": "Style skill",
+      "language": "Spoken language",
+      "facts": "Must-keep facts",
+      "links": "Reference links",
+      "cta": "Call to action",
+      "voice": "Voice",
+      "voiceNone": "Silent",
+      "voiceTts": "Local text to speech",
+      "voiceUpload": "Upload a WAV",
+      "music": "Music license",
+      "voiceFile": "Voice recording (WAV)",
+      "tips": {
+        "goal": "What the viewer should think, feel or do after watching. One sentence, one outcome: \"Get neighbors to visit the Saturday market\".",
+        "audience": "Who watches, in plain words: \"parents of toddlers in Lisbon\". A specific audience sets the vocabulary, the pace and the hook.",
+        "subject": "The one thing the video is about, or the offer. If you need \"and\" twice, split it into two videos.",
+        "duration": "Length in seconds, 5 to 300. Short vertical videos hold attention best at 15 to 45 seconds; cut anything that does not earn its time.",
+        "ratio": "Frame shape. 9:16 for Reels, Shorts and TikTok (keep text and faces inside the safe area, away from the top and bottom UI). 1:1 and 4:5 for feeds, 16:9 for YouTube and the web.",
+        "style": "The visual recipe the planner follows: shot types, pacing and captions. Pick the one closest to the tone you want.",
+        "language": "Language of the voice and captions, as a code such as en or pt. Captions matter: most people watch with the sound off.",
+        "facts": "Claims the video must keep, one per line: prices, dates, names, numbers. The planner will not invent or change them.",
+        "links": "Pages with extra context, such as the product page or an article. They are references for you and the plan, not downloaded footage.",
+        "cta": "The single action at the end: \"Visit studio.example\". Say it once, say it plainly, and keep it on screen long enough to read.",
+        "voice": "Silent needs nothing and relies on captions. Local text to speech reads the script on this server. Upload a WAV to use your own recording.",
+        "music": "Name the license or source of the music bed, such as \"Pixabay 123\". Leave it empty to ship without music; never use tracks you cannot license.",
+        "voiceFile": "A WAV recording of the narration. Record in a quiet room, close to the microphone, and keep it close to the chosen duration."
+      },
+      "placeholders": {
+        "goal": "Get neighbors to visit the Saturday market",
+        "audience": "Parents of toddlers in São Paulo",
+        "subject": "Organic fruit stall, 20% off this weekend",
+        "language": "en or pt",
+        "facts": "One fact per line, e.g.\nOpen Saturdays 8am to 1pm\n20% off until Sunday",
+        "links": "https://example.com/product",
+        "cta": "Visit the market this Saturday",
+        "music": "Pixabay 123, or leave empty for no music"
+      }
+    },
+    "tips": {
+      "title": "Tips",
+      "lead": "Short rules for good short videos.",
+      "videoTab": "Good videos",
+      "techniqueTab": "Techniques",
+      "video": {
+        "hook": {
+          "term": "Hook in 2-3 seconds",
+          "text": "Open on the payoff, a question or motion. No logo, no greeting."
+        },
+        "oneIdea": {
+          "term": "One idea per video",
+          "text": "A single message and a single call to action at the end."
+        },
+        "captions": {
+          "term": "Captions for silent viewing",
+          "text": "Most people scroll with sound off. Keep lines short and high contrast."
+        },
+        "pacing": {
+          "term": "Pace the cuts",
+          "text": "Change the picture every 2-4 seconds for fast content; hold longer to let a detail land."
+        },
+        "safeArea": {
+          "term": "Mind the safe area",
+          "text": "In 9:16, keep text and faces away from the top and bottom, where app buttons sit."
+        },
+        "loudness": {
+          "term": "Loudness",
+          "text": "Master the mix near -14 LUFS (about -1 dBTP peak) so platforms do not turn you down."
+        }
+      },
+      "technique": {
+        "thirds": {
+          "term": "Rule of thirds",
+          "text": "Place the subject on a third line, not the centre; leave look room in the direction they face."
+        },
+        "shots": {
+          "term": "Wide, medium, close-up",
+          "text": "Wide sets the place, medium carries the action, close-up shows emotion or a detail. Mix them."
+        },
+        "jl": {
+          "term": "J and L cuts",
+          "text": "Let the audio of the next shot start before the picture (J) or the previous audio run over it (L). It smooths cuts."
+        },
+        "broll": {
+          "term": "B-roll",
+          "text": "Cover talking or text with relevant footage to hide jump cuts and show what you describe."
+        },
+        "colour": {
+          "term": "Colour consistency",
+          "text": "Use one look across shots: same white balance and contrast, a small palette."
+        },
+        "audio": {
+          "term": "Audio first",
+          "text": "Viewers forgive soft picture, not bad sound. Record close, cut silences, duck music under voice."
+        }
+      }
+    }
+  }
+}
