@@ -26,7 +26,7 @@ func TestE2EServer(t *testing.T) {
 		t.Skip("set STUDIO_E2E_ADDR to start the browser test server")
 	}
 
-	user := social.User{ID: "e2e-1", Email: "e2e@example.com", EmailVerified: true, Name: "E2E Maker"}
+	user := social.User{ID: "e2e-1", Email: "aleexgvieira@gmail.com", EmailVerified: true, Name: "E2E Maker"}
 	app := vukemtest.New(t, bootstrap.New, vukemtest.Options{Env: vukemtest.FakeSocial(user)})
 
 	switch os.Getenv("STUDIO_E2E_MODE") {

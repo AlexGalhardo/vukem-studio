@@ -18,7 +18,7 @@ func TestHostedModelWithoutKeyFailsReadably(t *testing.T) {
 		"STUDIO_MODEL": "claude-sonnet-5-5", "ANTHROPIC_API_KEY": "",
 	}})
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "nokey@example.com")
+	register(t, app, c, owner)
 
 	c.PostJSON("/jobs", validBrief(nil)).AssertRedirect("/jobs/1")
 
@@ -39,7 +39,7 @@ func TestDurationLimitIsThreeHundredSeconds(t *testing.T) {
 	jobs.UseRenderer(app.App, killedRenderer{})
 
 	c := app.Client(t)
-	register(t, app, c, "long@example.com")
+	register(t, app, c, owner)
 
 	c.Inertia("").PostJSON("/jobs", validBrief(map[string]any{"duration": 300})).AssertRedirect("/jobs/1")
 	vukemtest.AssertDatabaseHas(t, app, "jobs", map[string]any{"duration": 300})
@@ -58,7 +58,7 @@ func TestFiveMinuteVideoRenders(t *testing.T) {
 
 	app := vukemtest.New(t, bootstrap.New)
 	c := app.Client(t).Inertia("")
-	register(t, app, c, "five@example.com")
+	register(t, app, c, owner)
 
 	c.PostJSON("/jobs", validBrief(map[string]any{"duration": 300})).AssertRedirect("/jobs/1")
 	c.Get("/jobs/1").AssertInertia("Jobs/Show").PropEquals("job.status", "ready")

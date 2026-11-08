@@ -17,7 +17,7 @@ func Jobs(r *router.Router, app *vukem.App) error {
 	}
 
 	h := controllers.NewJobController(app, acc)
-	private := []router.Middleware{auth.Required(acc.Web), auth.Verified(acc.Web)}
+	private := []router.Middleware{auth.Required(acc.Web), auth.Verified(acc.Web), allowlisted(acc)}
 
 	r.Get("/jobs", h.Index).Name("jobs.index").Use(private...)
 	r.Get("/jobs/create", h.Create).Name("jobs.create").Use(private...)

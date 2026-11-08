@@ -36,8 +36,8 @@ func Auth(r *router.Router, app *vukem.App) error {
 	r.Post("/logout", h.Logout).Name("logout").Use(required)
 
 	// "/" is the product dashboard. "/dashboard" stays as the redirect target.
-	r.Get("/", h.Dashboard).Name("home").Use(required, verified)
-	r.Get("/dashboard", h.Dashboard).Name("dashboard").Use(required, verified)
+	r.Get("/", h.Dashboard).Name("home").Use(required, verified, allowlisted(acc))
+	r.Get("/dashboard", h.Dashboard).Name("dashboard").Use(required, verified, allowlisted(acc))
 
 	return nil
 }
