@@ -2,7 +2,11 @@ import { Info } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { Label } from "@/components/ui/label";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useT } from "@/lib/i18n";
 
 interface Props {
@@ -32,7 +36,9 @@ export default function FieldTip({ id, label, tip, error, children }: Props) {
               <Info aria-hidden="true" className="size-3.5" />
             </button>
           </TooltipTrigger>
-          <TooltipContent className="max-w-64 text-pretty">{tip}</TooltipContent>
+          <TooltipContent className="max-w-64 text-pretty">
+            {tip}
+          </TooltipContent>
         </Tooltip>
       </div>
       {children}

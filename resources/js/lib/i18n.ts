@@ -10,7 +10,10 @@ export interface I18nProps {
   [key: string]: unknown;
 }
 
-export type Translate = (key: string, params?: Record<string, string | number>) => string;
+export type Translate = (
+  key: string,
+  params?: Record<string, string | number>,
+) => string;
 
 // translate fills {name} placeholders and picks plural forms; a missing key
 // returns the key itself, as the server does, so a typo shows on screen.
@@ -27,7 +30,9 @@ export function translate(
     const category = new Intl.PluralRules(locale).select(n);
     msg = (n === 0 && msg.zero) || msg[category] || msg.other || key;
   }
-  return msg.replace(/\{(\w+)\}/g, (match, name: string) => (name in params ? String(params[name]) : match));
+  return msg.replace(/\{(\w+)\}/g, (match, name: string) =>
+    name in params ? String(params[name]) : match,
+  );
 }
 
 export function useT(): Translate {

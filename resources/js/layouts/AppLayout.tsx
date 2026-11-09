@@ -18,7 +18,12 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useT } from "@/lib/i18n";
 import type { SharedProps } from "@/types";
 
@@ -35,7 +40,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const message = page.flash?.success ?? page.flash?.status;
   const notice =
     typeof message === "string" ? (
-      <p role="status" className="mb-4 rounded-lg border bg-muted px-4 py-3 text-sm">
+      <p
+        role="status"
+        className="mb-4 rounded-lg border bg-muted px-4 py-3 text-sm"
+      >
         {message}
       </p>
     ) : null;
@@ -52,7 +60,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     );
   }
 
-  const current = navigation.find((n) => (n.href === "/" ? path === "/" || path === "/dashboard" : path.startsWith(n.href)));
+  const current = navigation.find((n) =>
+    n.href === "/"
+      ? path === "/" || path === "/dashboard"
+      : path.startsWith(n.href),
+  );
 
   return (
     <TooltipProvider>
@@ -61,12 +73,18 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <SidebarHeader className="p-2">
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild size="lg" tooltip={page.props.appName}>
+                <SidebarMenuButton
+                  asChild
+                  size="lg"
+                  tooltip={page.props.appName}
+                >
                   <Link href="/">
                     <span className="flex aspect-square size-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
                       <Video aria-hidden="true" className="size-4" />
                     </span>
-                    <span className="text-lg font-semibold tracking-tight">{page.props.appName}</span>
+                    <span className="text-lg font-semibold tracking-tight">
+                      {page.props.appName}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -78,7 +96,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 <SidebarMenu>
                   {navigation.map(({ href, label, icon: Icon }) => (
                     <SidebarMenuItem key={href}>
-                      <SidebarMenuButton asChild isActive={current?.href === href} tooltip={t(label)}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={current?.href === href}
+                        tooltip={t(label)}
+                      >
                         <Link href={href}>
                           <Icon aria-hidden="true" />
                           <span>{t(label)}</span>
@@ -102,7 +124,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   </span>
                   <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
                     <p className="truncate text-sm font-medium">{user.name}</p>
-                    <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {user.email}
+                    </p>
                   </div>
                 </div>
               </SidebarMenuItem>
@@ -124,12 +148,16 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <TooltipTrigger asChild>
                 <SidebarTrigger aria-label={t("ui.nav.toggleSidebar")} />
               </TooltipTrigger>
-              <TooltipContent>{t("ui.nav.toggleSidebar")} (Ctrl+B)</TooltipContent>
+              <TooltipContent>
+                {t("ui.nav.toggleSidebar")} (Ctrl+B)
+              </TooltipContent>
             </Tooltip>
             <span aria-hidden="true" className="text-muted-foreground">
               /
             </span>
-            <span className="text-sm">{current ? t(current.label) : page.props.appName}</span>
+            <span className="text-sm">
+              {current ? t(current.label) : page.props.appName}
+            </span>
             <div className="ml-auto flex items-center gap-2">
               <LocaleSwitcher />
               <ThemeToggle />

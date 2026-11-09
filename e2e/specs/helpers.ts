@@ -6,7 +6,10 @@ export async function signIn(page: Page): Promise<void> {
   await expect(page).toHaveURL(/:\d+\/$/);
 }
 
-export async function fillBrief(page: Page, over: Record<string, string> = {}): Promise<void> {
+export async function fillBrief(
+  page: Page,
+  over: Record<string, string> = {},
+): Promise<void> {
   const values: Record<string, string> = {
     Goal: "Visit the harbor",
     Audience: "neighbors",
@@ -15,5 +18,6 @@ export async function fillBrief(page: Page, over: Record<string, string> = {}): 
     ...over,
   };
 
-  for (const [label, value] of Object.entries(values)) await page.getByLabel(label).fill(value);
+  for (const [label, value] of Object.entries(values))
+    await page.getByLabel(label).fill(value);
 }

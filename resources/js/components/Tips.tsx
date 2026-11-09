@@ -1,11 +1,26 @@
 import { Lightbulb } from "lucide-react";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useT } from "@/lib/i18n";
 
-const videoTips = ["hook", "oneIdea", "captions", "pacing", "safeArea", "loudness"].map((k) => `ui.tips.video.${k}`);
-const techniques = ["thirds", "shots", "jl", "broll", "colour", "audio"].map((k) => `ui.tips.technique.${k}`);
+const videoTips = [
+  "hook",
+  "oneIdea",
+  "captions",
+  "pacing",
+  "safeArea",
+  "loudness",
+].map((k) => `ui.tips.video.${k}`);
+const techniques = ["thirds", "shots", "jl", "broll", "colour", "audio"].map(
+  (k) => `ui.tips.technique.${k}`,
+);
 
 function List({ items }: { items: string[] }) {
   const t = useT();
@@ -36,7 +51,9 @@ export default function Tips() {
         <Tabs defaultValue="video">
           <TabsList>
             <TabsTrigger value="video">{t("ui.tips.videoTab")}</TabsTrigger>
-            <TabsTrigger value="technique">{t("ui.tips.techniqueTab")}</TabsTrigger>
+            <TabsTrigger value="technique">
+              {t("ui.tips.techniqueTab")}
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="video" className="mt-4">
             <List items={videoTips} />
