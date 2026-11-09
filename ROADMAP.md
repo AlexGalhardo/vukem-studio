@@ -188,4 +188,4 @@ The definition of done for this phase is one silent 9:16 file from a brief, chec
 
 ## Feedback to the Vukem framework
 
-Write framework bugs and gaps in `vukem-feedback.md` (gitignored) as they show up during phase 2. Do not "fix" them inside Studio by forking the framework.
+Write framework bugs and gaps in the single shared `vukem-feedback.md` at the workspace root (ids `ST-<n>`, see `.agents/rules/studio.md`) as they show up. Never keep a copy in this repository. Do not "fix" them inside Studio by forking the framework.

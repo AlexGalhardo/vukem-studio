@@ -12,6 +12,6 @@ The application itself is a Vukem app (<https://vukem.dev/docs/introduction>) wi
 
 Repository: <https://github.com/AlexGalhardo/vukem-studio>
 
-`vukem-feedback.md` at the repository root is gitignored and collects framework bugs found while building Studio.
+Framework bugs found while building Studio go in the single shared `vukem-feedback.md` at the workspace root; this repository keeps no copy (the name stays in `.gitignore` so one is never committed).
 
 The implementation order and the audit checks are in `ROADMAP.md`.
