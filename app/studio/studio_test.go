@@ -5,6 +5,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -153,6 +154,10 @@ func TestUnlicensedBedIsAbsent(t *testing.T) {
 }
 
 func TestHyperFramesAdapterWritesAFile(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("the fake encoder is a POSIX shell script; CI covers the adapter on Linux")
+	}
+
 	t.Parallel()
 
 	dir := t.TempDir()
