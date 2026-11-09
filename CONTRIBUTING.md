@@ -49,6 +49,7 @@ fix(site): keep the changelog path at the repo root
 The subject is lowercase and has no final period. Types: `feat`, `fix`, `perf`, `refactor`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`.
 
 One logical change per commit. Update `CHANGELOG.md` under `[Unreleased]` when the change is user-visible or changes a command.
+The release commit also sets `"version"` in `package.json` to the new tag without the `v`.
 
 ## Pull requests
 
