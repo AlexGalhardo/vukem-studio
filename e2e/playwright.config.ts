@@ -18,9 +18,25 @@ export default defineConfig({
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: { trace: "retain-on-failure" },
   projects: [
-    { name: "ok", use: { baseURL: "http://127.0.0.1:3101" }, testMatch: /ok\.spec\.ts/ },
-    { name: "model-failure", use: { baseURL: "http://127.0.0.1:3102" }, testMatch: /model\.spec\.ts/ },
-    { name: "render-failure", use: { baseURL: "http://127.0.0.1:3103" }, testMatch: /render\.spec\.ts/ },
+    {
+      name: "ok",
+      use: { baseURL: "http://127.0.0.1:3101" },
+      testMatch: /ok\.spec\.ts/,
+    },
+    {
+      name: "model-failure",
+      use: { baseURL: "http://127.0.0.1:3102" },
+      testMatch: /model\.spec\.ts/,
+    },
+    {
+      name: "render-failure",
+      use: { baseURL: "http://127.0.0.1:3103" },
+      testMatch: /render\.spec\.ts/,
+    },
   ],
-  webServer: [server(3101, "ok"), server(3102, "model"), server(3103, "render")],
+  webServer: [
+    server(3101, "ok"),
+    server(3102, "model"),
+    server(3103, "render"),
+  ],
 });

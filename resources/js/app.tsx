@@ -7,7 +7,9 @@ import AppLayout from "./layouts/AppLayout";
 // toggle flips the class and saves it.
 try {
   const theme = localStorage.getItem("theme");
-  const dark = theme ? theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const dark = theme
+    ? theme === "dark"
+    : matchMedia("(prefers-color-scheme: dark)").matches;
   document.documentElement.classList.toggle("dark", dark);
 } catch {
   // Storage can be blocked (private mode): keep the default theme.
@@ -19,7 +21,8 @@ try {
 // RootID, pass the same value here as `id`.
 createInertiaApp({
   layout: () => AppLayout,
-  nonce: document.querySelector<HTMLMetaElement>('meta[property="csp-nonce"]')?.nonce,
+  nonce: document.querySelector<HTMLMetaElement>('meta[property="csp-nonce"]')
+    ?.nonce,
   progress: { color: "#4f46e5" },
 }).finally(() => {
   // app.html sets data-hydrating; style it (button:disabled, a pending hint)

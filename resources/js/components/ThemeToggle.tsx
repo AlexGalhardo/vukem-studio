@@ -2,14 +2,24 @@ import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useT } from "@/lib/i18n";
 
-const isDark = (): boolean => typeof document !== "undefined" && document.documentElement.classList.contains("dark");
+const isDark = (): boolean =>
+  typeof document !== "undefined" &&
+  document.documentElement.classList.contains("dark");
 
 // ThemeToggle switches the "dark" class on <html> and remembers the choice in
 // localStorage.theme; resources/views/app.html applies it before the first paint.
-export default function ThemeToggle({ className = "" }: { className?: string }) {
+export default function ThemeToggle({
+  className = "",
+}: {
+  className?: string;
+}) {
   const t = useT();
   const [dark, setDark] = useState(false);
 
@@ -31,7 +41,14 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button type="button" variant="ghost" size="icon" onClick={toggle} aria-label={label} className={className}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={toggle}
+          aria-label={label}
+          className={className}
+        >
           {dark ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
         </Button>
       </TooltipTrigger>

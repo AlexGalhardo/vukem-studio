@@ -3,7 +3,13 @@ import { Head, Link, usePage } from "@inertiajs/react";
 import BriefForm from "@/components/BriefForm";
 import Tips from "@/components/Tips";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useT } from "@/lib/i18n";
 import type { JobListItem, SharedProps } from "@/types";
 
@@ -13,7 +19,12 @@ interface Props {
   ratios: string[];
 }
 
-const statusVariant = (status: string) => (status === "ready" ? "default" : status === "failed" ? "destructive" : "secondary");
+const statusVariant = (status: string) =>
+  status === "ready"
+    ? "default"
+    : status === "failed"
+      ? "destructive"
+      : "secondary";
 
 export default function Dashboard({ jobs, styles, ratios }: Props) {
   const t = useT();
@@ -22,7 +33,9 @@ export default function Dashboard({ jobs, styles, ratios }: Props) {
   return (
     <>
       <Head title={t("ui.dashboard.title")} />
-      <h1 className="text-2xl font-semibold tracking-tight">{t("ui.dashboard.hello", { name: user?.name ?? "" })}</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">
+        {t("ui.dashboard.hello", { name: user?.name ?? "" })}
+      </h1>
       <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
         {t("ui.dashboard.lead")}
       </p>
@@ -41,22 +54,35 @@ export default function Dashboard({ jobs, styles, ratios }: Props) {
             <CardHeader>
               <CardTitle>{t("ui.dashboard.recent")}</CardTitle>
               <CardDescription>
-                <Link href="/jobs" className="underline-offset-4 hover:underline focus-visible:underline">
+                <Link
+                  href="/jobs"
+                  className="underline-offset-4 hover:underline focus-visible:underline"
+                >
                   {t("ui.dashboard.seeAll")}
                 </Link>
               </CardDescription>
             </CardHeader>
             <CardContent>
               {jobs.length === 0 ? (
-                <p className="text-sm text-muted-foreground">{t("ui.dashboard.empty")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("ui.dashboard.empty")}
+                </p>
               ) : (
                 <ul className="divide-y">
                   {jobs.map((job) => (
-                    <li key={job.id} className="flex items-center justify-between gap-3 py-2 text-sm first:pt-0 last:pb-0">
-                      <Link href={`/jobs/${job.id}`} className="min-w-0 truncate underline-offset-4 hover:underline focus-visible:underline">
+                    <li
+                      key={job.id}
+                      className="flex items-center justify-between gap-3 py-2 text-sm first:pt-0 last:pb-0"
+                    >
+                      <Link
+                        href={`/jobs/${job.id}`}
+                        className="min-w-0 truncate underline-offset-4 hover:underline focus-visible:underline"
+                      >
                         {job.subject}
                       </Link>
-                      <Badge variant={statusVariant(job.status)}>{t(`ui.dashboard.status.${job.status}`)}</Badge>
+                      <Badge variant={statusVariant(job.status)}>
+                        {t(`ui.dashboard.status.${job.status}`)}
+                      </Badge>
                     </li>
                   ))}
                 </ul>
