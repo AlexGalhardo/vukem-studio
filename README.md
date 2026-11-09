@@ -3,7 +3,7 @@
 <h1><strong><a href="https://studio.vukem.dev" style="text-decoration: none" target="_blank">studio.vukem.dev</a></strong></h1>
 
 [![CI](https://github.com/AlexGalhardo/vukem-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexGalhardo/vukem-studio/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![Bun 1.4.4](https://img.shields.io/badge/bun-1.4.4-000000?logo=bun&logoColor=white)](package.json)
 <a href="https://github.com/AlexGalhardo/vukem-studio/releases"><img src="https://img.shields.io/github/v/release/AlexGalhardo/vukem-studio?include_prereleases&label=version" alt="Version"></a>
 
@@ -82,4 +82,4 @@ If you discover a security vulnerability, please follow the [security policy](SE
 
 ## License
 
-Studio is open source software released under the [MIT license](LICENSE).
+Studio is open source software released under the [MIT license](LICENSE.md).

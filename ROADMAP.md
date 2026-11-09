@@ -17,7 +17,7 @@ Legend: `[x]` done, `[/]` partial, `[ ]` not started. A phase is done only when 
 
 ### 0.2 Project hygiene
 
-- [x] `LICENSE` (MIT), `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`
+- [x] `LICENSE.md` (MIT), `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`
 - [x] Semantic Versioning stated in the README and `CHANGELOG.md` (Keep a Changelog)
 - [x] Conventional Commits: `.githooks/commit-msg` and the PR title workflow
 - [x] `cliff.toml` for changelog generation
