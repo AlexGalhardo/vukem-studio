@@ -34,7 +34,7 @@ Legend: `[x]` done, `[/]` partial, `[ ]` not started. A phase is done only when 
 - [x] `git check-ignore -v vukem-feedback.md` points at `.gitignore`
 - [x] `bun run check` exits 0 on the docs site (`tsc --noEmit`)
 - [x] `npm run check:mdx` and `npm run build` inside `site/` exit 0
-- [ ] Scorecard workflow has run on `main` at least once. The workflow file is on `main`, and GitHub Actions has not registered or run it (the workflows API returns 404 for `scorecard.yml`).
+- [x] Scorecard workflow has run on `main` (runs 42485982009 and 42631107633, 2026-11-08 and 2026-11-09).
 
 ## Phase 1 — Documentation site is public
 
