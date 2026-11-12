@@ -18,7 +18,7 @@ RUN if ! ls bun.lock* >/dev/null 2>&1; then \
 COPY . .
 RUN bun run build
 
-FROM golang:1.27.3-alpine3.24 AS build
+FROM golang:1.27.4-alpine3.24 AS build
 WORKDIR /src
 ENV CGO_ENABLED=0
 COPY go.mod go.sum ./
