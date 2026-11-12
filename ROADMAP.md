@@ -189,3 +189,9 @@ The definition of done for this phase is one silent 9:16 file from a brief, chec
 ## Feedback to the Vukem framework
 
 Write framework bugs and gaps in the single shared `vukem-feedback.md` at the workspace root (ids `ST-<n>`, see `.agents/rules/studio.md`) as they show up. Never keep a copy in this repository. Do not "fix" them inside Studio by forking the framework.
+
+## Launch-film follow-up
+
+The workspace-root `../ROADMAP.md` tracks the launch film and the related
+vukem.dev landing. Its accepted brief supersedes earlier first-film guesses.
+Local production sources and provenance are in `films/vukem-launch/README.md`.

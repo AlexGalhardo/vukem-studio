@@ -35,3 +35,8 @@ Further loudness, decode and editorial review is required before publication.
 Two known scaffold issues are recorded in workspace-root `vukem-feedback.md`:
 empty charts and the workspace page's conflicting prop shape. Final captures
 use seeded data and functional dashboard, transactions, accounts and login.
+
+Art direction is recorded in `art-direction.json`, adapting the existing
+`lab-ia` kit palette to the approved launch brief and locally licensed Geist.
+Both orientations share the same tokens and editorial manifest. The vertical
+composition uses mobile captures and stacked typography rather than a crop.
