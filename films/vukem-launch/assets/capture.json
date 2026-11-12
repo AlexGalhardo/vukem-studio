@@ -1,0 +1,14 @@
+{
+  "framework": "v0.43.0",
+  "scaffold": "finance",
+  "sourceCommit": "0dc46208e14b769f6ce458635b63e4563251eb1b",
+  "interfaceModified": false,
+  "data": "Fictional demo data, local SQLite only",
+  "routes": [
+    "/login",
+    "/dashboard",
+    "/transactions",
+    "/accounts"
+  ],
+  "capturedAt": "2026-11-12T22:18:39.451Z"
+}

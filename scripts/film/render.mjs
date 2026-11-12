@@ -1,0 +1,20 @@
+import {chromium} from 'playwright';
+import {createServer} from 'node:http';
+import {readFile, mkdir, rename, writeFile} from 'node:fs/promises';
+import {spawn, execFileSync} from 'node:child_process';
+import {once} from 'node:events';
+import path from 'node:path';
+import {createHash} from 'node:crypto';
+const scenes=JSON.parse(await readFile('scripts/film/scenes.json','utf8'));
+if(scenes.length!==15||scenes.some(s=>!s.title||!s.sub||!['title','terminal','dashboard','accounts','transactions','login'].includes(s.kind)))throw Error('Invalid 120-second scene manifest');
+const root=process.cwd(),format=process.argv[2]||'horizontal';
+if(!['horizontal','vertical'].includes(format))throw Error('Expected horizontal or vertical');
+const out=path.join(root,'storage/marketing/output');await mkdir(out,{recursive:true});
+const server=createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep))throw Error('invalid path');if(!['/scripts/film/composition.html','/scripts/film/scenes.json'].includes(url.pathname)&&!url.pathname.startsWith('/films/vukem-launch/assets/')&&!url.pathname.startsWith('/node_modules/@fontsource-variable/geist/files/'))throw Error('not a public film asset');const data=await readFile(file);res.setHeader('Content-Type',file.endsWith('.html')?'text/html':file.endsWith('.json')?'application/json':file.endsWith('.woff2')?'font/woff2':'image/png');res.end(data);}catch{res.statusCode=404;res.end();}}).listen(0,'127.0.0.1');await once(server,'listening');
+const browser=await chromium.launch();let encoder;
+try{const page=await browser.newPage();page.setDefaultTimeout(30000);await page.goto(`http://127.0.0.1:${server.address().port}/scripts/film/composition.html`);await page.evaluate(f=>window.prepare(f),format);
+const pending=path.join(out,format+'.pending.mp4'),final=path.join(out,'vukem-launch-'+format+'.mp4');
+encoder=spawn(process.env.FFMPEG || 'ffmpeg',['-y','-hide_banner','-loglevel','error','-f','image2pipe','-framerate','30','-i','pipe:0','-i',path.join(out,'soundtrack.wav'),'-t','120','-c:v','libx264','-preset','fast','-threads','2','-crf','22','-vf','scale=in_range=full:out_range=tv,format=yuv420p','-color_range','tv','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-af','loudnorm=I=-14:TP=-3:LRA=11','-movflags','+faststart',pending],{stdio:['pipe','inherit','inherit'],timeout:1800000});const complete=once(encoder,'exit');
+for(let i=0;i<3600;i++){const jpg=Buffer.from(await page.evaluate(t=>window.draw(t),i/30),'base64');if(!encoder.stdin.write(jpg))await once(encoder.stdin,'drain');if(i%300===0)console.log(format,Math.round(i/36)+'%');}encoder.stdin.end();const [code]=await complete;if(code!==0)throw Error('Encoder exit '+code);
+const probe=JSON.parse(execFileSync(process.env.FFPROBE || 'ffprobe',['-v','error','-show_streams','-show_format','-of','json',pending]));const v=probe.streams.find(s=>s.codec_type==='video');if(v.width!==(format==='vertical'?1080:1920)||Math.abs(+probe.format.duration-120)>.2||v.pix_fmt!=='yuv420p')throw Error('QA failed');await writeFile(final+'.probe.json',JSON.stringify(probe,null,2));await writeFile(final+'.source.json',JSON.stringify({renderer:'vukem-film-canvas-1',sceneManifestSHA256:createHash('sha256').update(await readFile('scripts/film/scenes.json')).digest('hex'),capture:JSON.parse(await readFile('films/vukem-launch/assets/capture.json','utf8')),format,ffmpeg:execFileSync(process.env.FFMPEG||'ffmpeg',['-version'],{encoding:'utf8',timeout:10000}).split('\n')[0]},null,2));await rename(pending,final);console.log(final);
+}finally{encoder?.kill();await browser.close();server.close();}
