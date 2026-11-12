@@ -1,8 +1,8 @@
 module github.com/AlexGalhardo/vukem-studio
 
-go 1.27.3
+go 1.27.4
 
-require github.com/AlexGalhardo/vukem v0.39.0
+require github.com/AlexGalhardo/vukem v0.41.0
 
 require (
 	github.com/dustin/go-humanize v1.1.0 // indirect
