@@ -1,0 +1,78 @@
+[
+  {
+    "title": "Every product starts\nwith an idea.",
+    "sub": "Make yours real.",
+    "kind": "title"
+  },
+  {
+    "title": "Meet Vukem.",
+    "sub": "A Go framework for APIs and full-stack apps.",
+    "kind": "title"
+  },
+  {
+    "title": "Your next idea?\nPersonal finance.",
+    "sub": "A real SaaS scaffold. Ready to explore.",
+    "kind": "dashboard"
+  },
+  {
+    "title": "Start with a command.",
+    "sub": "vukem new money --example finance",
+    "kind": "terminal"
+  },
+  {
+    "title": "Create the database.",
+    "sub": "cd money\nvukem migrate\nvukem serve",
+    "kind": "terminal"
+  },
+  {
+    "title": "Make it personal.",
+    "sub": "Registration and sign-in, included.",
+    "kind": "login"
+  },
+  {
+    "title": "See the whole picture.",
+    "sub": "Income. Expenses. Balance.",
+    "kind": "dashboard"
+  },
+  {
+    "title": "Bring your data\nto life.",
+    "sub": "Six months of financial activity.",
+    "kind": "dashboard"
+  },
+  {
+    "title": "Every detail counts.",
+    "sub": "Record and organize your transactions.",
+    "kind": "transactions"
+  },
+  {
+    "title": "A place for\nevery account.",
+    "sub": "Your product. Your structure.",
+    "kind": "accounts"
+  },
+  {
+    "title": "Go on the server.\nReact in the browser.",
+    "sub": "Connected through Inertia.",
+    "kind": "title"
+  },
+  {
+    "title": "Read it. Change it.\nMake it yours.",
+    "sub": "Generated application code belongs to you.",
+    "kind": "terminal",
+    "code": "g.Get(\"/dashboard\",\n    h.Dashboard,\n).Name(\"dashboard\")"
+  },
+  {
+    "title": "From an idea\nto an application.",
+    "sub": "Built with Vukem.",
+    "kind": "dashboard"
+  },
+  {
+    "title": "Your next product\nstarts here.",
+    "sub": "Explore the framework. Build something new.",
+    "kind": "title"
+  },
+  {
+    "title": "vukem.dev",
+    "sub": "Create your first application.",
+    "kind": "title"
+  }
+]

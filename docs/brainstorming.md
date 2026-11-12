@@ -82,3 +82,13 @@ Guess: this hostname is the docs, because the brief says a visitor lands on the 
 - Billing and subscriptions
 - A pixel-video model (Wan, Veo, Kling, Runway, Sora) on the default path
 - Translating every skill kit in one pass
+
+## Launch film — accepted 2026-11-12
+
+The operator approved production: approximately 120 seconds in horizontal and
+vertical layouts, English copy, no narration, real v0.43.0 finance SaaS captures,
+strong technological typography and terminal sequences, electronic instrumental
+music and synchronized effects. The CTA is vukem.dev. The first film takes
+priority over a general editor. Production runs locally without API keys.
+This supersedes the earlier single-card/silent first-video hypothesis for this
+production. See `films/vukem-launch/README.md` and workspace-root `ROADMAP.md`.
