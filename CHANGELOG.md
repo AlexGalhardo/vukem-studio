@@ -11,9 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Local launch-film capture, composition, original synthesized soundtrack and dual-format rendering tools.
 
-
-### Added
-
 - **ui:** Add shadcn/ui (radix-nova) with a collapsible sidebar, tooltips, cards and form controls, and a tips panel on the dashboard
 - **dashboard:** Show the brief form, recent videos and tips on `/`, with a tooltip on every brief field
 - **i18n:** English and Brazilian Portuguese for the login page, the sidebar and the dashboard (`resources/lang`, `inertia.I18n("ui.")`), picked from `?lang=`, the `lang` cookie or the browser; a language switcher in the header stores the choice through `POST /locale`
