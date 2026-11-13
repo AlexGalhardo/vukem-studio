@@ -1,14 +1,30 @@
 {
-  "framework": "v0.43.0",
+  "framework": "v0.43.1-0.20261112225041-c8fadd0fe191+dirty",
+  "publishedCLI": "v0.43.0",
   "scaffold": "finance",
-  "sourceCommit": "0dc46208e14b769f6ce458635b63e4563251eb1b",
+  "sourceRevision": "61b94c4b",
+  "baseRevision": "c8fadd0fe1915b3b4dde65cdeef378cebc23c40b",
+  "uncommitted": "Captured from the Phase 9 finance follow-up before it was committed. That work, including the later behavior-neutral selectNewStack extraction, is commit 61b94c4b on top of main c8fadd0f. The on-screen version line is the local build used at capture time. Published CLI v0.43.0 predates these scaffold fixes. No release tag was cut for the film.",
+  "generatedBy": "vukem new money --example finance --module example.com/money --framework <vukem-finance-ui> --no-install --pm npm --seed",
+  "url": "http://127.0.0.1:3310",
   "interfaceModified": false,
-  "data": "Fictional demo data, local SQLite only",
+  "data": "FinanceDemoSeeder fictional rows. The capture signs in and does not delete or reseed.",
   "routes": [
+    "/",
     "/login",
     "/dashboard",
     "/transactions",
     "/accounts"
   ],
-  "capturedAt": "2026-11-12T22:18:39.451Z"
+  "viewports": {
+    "horizontal": [
+      1440,
+      900
+    ],
+    "vertical": [
+      390,
+      844
+    ]
+  },
+  "capturedAt": "2026-11-13T00:13:38.301Z"
 }

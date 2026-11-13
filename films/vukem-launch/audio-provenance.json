@@ -1,0 +1,11 @@
+{
+  "title": "Vukem launch instrumental",
+  "source": "scripts/film/music.py",
+  "method": "Deterministic local additive synthesis, original arrangement and synchronized effects",
+  "externalSamples": [],
+  "voice": false,
+  "tempoBPM": 120,
+  "seed": 43,
+  "license": "MIT, same as this repository",
+  "durationSeconds": 128
+}

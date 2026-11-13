@@ -1,11 +1,203 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><title>Vukem film composition</title><style>@font-face{font-family:Geist;src:url('/node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2')}body{margin:0;background:#07090d}canvas{display:block;width:100vw;height:100vh}</style><canvas></canvas><script>
-const c=document.querySelector('canvas'),x=c.getContext('2d');let shots,tokens,images={},portrait=false;
-window.prepare=async function(format){portrait=format==='vertical';c.width=portrait?1080:1920;c.height=portrait?1920:1080;shots=await(await fetch('/scripts/film/scenes.json')).json();tokens=(await(await fetch('/films/vukem-launch/art-direction.json')).json()).palette;await document.fonts.load('700 60px Geist');for(const k of ['dashboard','transactions','accounts','login']){let i=new Image();i.src='/films/vukem-launch/assets/'+k+'-'+format+'.png';await i.decode();images[k]=i;}return true;};
-function text(s,px,y,size,color=tokens.text,weight=650){x.fillStyle=color;x.font=weight+' '+size+'px Geist';s.split('\n').forEach((l,i)=>x.fillText(l,px,y+i*size*1.08));}
-window.draw=function(t){let idx=Math.min(14,Math.floor(t/8)),s=shots[idx],u=t-idx*8,w=c.width,h=c.height,p=portrait;const fade=Math.min(1,u*2,(8-u)*3);x.globalAlpha=1;x.fillStyle=tokens.background;x.fillRect(0,0,w,h);x.strokeStyle=tokens.grid;x.lineWidth=1;for(let a=0;a<w;a+=80){x.beginPath();x.moveTo(a,0);x.lineTo(a,h);x.stroke()}for(let a=0;a<h;a+=80){x.beginPath();x.moveTo(0,a);x.lineTo(w,a);x.stroke()}x.globalAlpha=.4;x.strokeStyle=tokens.primary;x.beginPath();for(let a=0;a<w;a+=10){let y=h*.8+Math.sin(a/160+t*.6)*45;x.lineTo(a,y)}x.stroke();x.globalAlpha=fade;
-text('VUKEM',p?100:110,p?165:100,30,tokens.primary,700);text(String(idx+1).padStart(2,'0')+' / 15',p?790:1640,p?165:100,23,tokens.muted,400);
-let shift=30*Math.pow(1-Math.min(1,u*1.4),3);x.save();x.translate(0,shift);const demo=images[s.kind];let titleSize=p?72:demo?64:100;let ty=p?350:demo?290:440;text(s.title,p?100:110,ty,titleSize);let lines=s.title.split('\n').length;let subY=ty+lines*titleSize*1.08+45;
-if(s.kind==='terminal'){let bx=p?90:110,by=p?750:560,bw=p?900:1600,bh=p?600:320;x.fillStyle=tokens.surface;x.fillRect(bx,by,bw,bh);text('●  ●  ●     terminal',bx+35,by+50,23,tokens.muted,400);const content=s.code||s.sub;const visible=content.slice(0,Math.floor(Math.max(0,u-.5)*24));text('$ '+visible,bx+40,by+130,p?33:42,tokens.primary,450);}else{text(s.sub,p?100:110,subY,p?32:30,tokens.secondaryText,400);}
-if(demo){let bx=p?95:900,by=p?720:210,bw=p?890:910,bh=p?1000:640;let scale=Math.min(bw/demo.width,bh/demo.height)*(1+.018*Math.min(u,6)/6);x.fillStyle=tokens.surface;x.fillRect(bx-14,by-14,bw+28,bh+28);x.save();x.beginPath();x.rect(bx,by,bw,bh);x.clip();x.drawImage(demo,bx,by,demo.width*scale,demo.height*scale);x.restore();text('FINANCE SCAFFOLD · FICTIONAL DEMO DATA',bx,by+bh+45,p?19:18,tokens.muted,400);}
-x.restore();x.fillStyle=tokens.primary;x.fillRect(0,h-5,w*t/120,5);x.globalAlpha=1;return c.toDataURL('image/jpeg',.92).split(',')[1];};
-</script></html>
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Vukem film composition</title>
+<style>
+@font-face{font-family:Geist;src:url('/node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2')}
+body{margin:0;background:#07090d}
+canvas{display:block;width:100vw;height:100vh}
+</style>
+<canvas></canvas>
+<script>
+const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d");
+let shots = [];
+let tokens = {};
+let images = {};
+let portrait = false;
+let total = 120;
+
+const shotKinds = ["dashboard", "transactions", "accounts", "login", "workspace", "landing"];
+
+function sceneSeconds(scene) {
+  const value = Number(scene.seconds);
+  return value > 0 ? value : 8;
+}
+
+function schedule(list) {
+  let cursor = 0;
+  return list.map((scene) => {
+    const seconds = sceneSeconds(scene);
+    const start = cursor;
+    cursor += seconds;
+    return { ...scene, start, seconds };
+  });
+}
+
+window.prepare = async function (format) {
+  portrait = format === "vertical";
+  canvas.width = portrait ? 1080 : 1920;
+  canvas.height = portrait ? 1920 : 1080;
+  const raw = await (await fetch("/scripts/film/scenes.json")).json();
+  shots = schedule(raw);
+  total = shots.reduce((sum, scene) => sum + scene.seconds, 0);
+  tokens = (await (await fetch("/films/vukem-launch/art-direction.json")).json()).palette;
+  await document.fonts.load("700 60px Geist");
+  const names = new Set();
+  for (const scene of shots) {
+    if (scene.image) names.add(scene.image);
+    else if (shotKinds.includes(scene.kind)) names.add(scene.kind);
+  }
+  await Promise.all([...names].map(async (name) => {
+    const image = new Image();
+    const file = name.includes("/")
+      ? name
+      : "/films/vukem-launch/assets/" + name + "-" + format + ".png";
+    image.src = file;
+    await image.decode();
+    images[name] = image;
+  }));
+  return { total, count: shots.length };
+};
+
+function text(value, x, y, size, color, weight) {
+  ctx.fillStyle = color || tokens.text;
+  ctx.font = (weight || 650) + " " + size + "px Geist";
+  String(value).split("\n").forEach((line, index) => {
+    ctx.fillText(line, x, y + index * size * 1.08);
+  });
+}
+
+function wrap(value, maxWidth, size) {
+  ctx.font = "450 " + size + "px Geist";
+  const lines = [];
+  for (const paragraph of String(value).split("\n")) {
+    if (paragraph === "") {
+      lines.push("");
+      continue;
+    }
+    let line = "";
+    for (const word of paragraph.split(" ")) {
+      const next = line ? line + " " + word : word;
+      if (ctx.measureText(next).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = next;
+      }
+    }
+    if (line) lines.push(line);
+  }
+  return lines;
+}
+
+function panel(x, y, w, h, label, body, size) {
+  ctx.fillStyle = tokens.surface;
+  ctx.fillRect(x, y, w, h);
+  text(label, x + 36, y + 52, 23, tokens.muted, 400);
+  const lines = wrap(body, w - 80, size);
+  const visible = lines.slice(0, Math.floor((h - 110) / (size * 1.15)));
+  visible.forEach((line, index) => {
+    text(line, x + 40, y + 120 + index * size * 1.15, size, tokens.primary, 450);
+  });
+}
+
+window.draw = function (t) {
+  const clamped = Math.max(0, Math.min(t, Math.max(total - 0.001, 0)));
+  let scene = shots[shots.length - 1];
+  let index = shots.length - 1;
+  for (let i = 0; i < shots.length; i++) {
+    if (clamped < shots[i].start + shots[i].seconds) {
+      scene = shots[i];
+      index = i;
+      break;
+    }
+  }
+  const local = clamped - scene.start;
+  const width = canvas.width;
+  const height = canvas.height;
+  const fade = Math.min(1, local * 2, (scene.seconds - local) * 3);
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = tokens.background;
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = tokens.grid;
+  ctx.lineWidth = 1;
+  for (let x = 0; x < width; x += 80) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < height; y += 80) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 0.4;
+  ctx.strokeStyle = tokens.primary;
+  ctx.beginPath();
+  for (let x = 0; x < width; x += 10) {
+    ctx.lineTo(x, height * 0.86 + Math.sin(x / 160 + t * 0.6) * 28);
+  }
+  ctx.stroke();
+  ctx.globalAlpha = fade;
+  const margin = portrait ? 88 : 110;
+  text("VUKEM", margin, portrait ? 150 : 100, 30, tokens.primary, 700);
+  text(
+    String(index + 1).padStart(2, "0") + " / " + String(shots.length).padStart(2, "0"),
+    portrait ? 760 : 1640,
+    portrait ? 150 : 100,
+    23,
+    tokens.muted,
+    400,
+  );
+  const shift = 30 * Math.pow(1 - Math.min(1, local * 1.4), 3);
+  ctx.save();
+  ctx.translate(0, shift);
+  const shot = images[scene.image || scene.kind];
+  const titleSize = portrait ? 68 : shot ? 60 : 92;
+  const titleY = portrait ? 280 : shot ? 250 : 420;
+  text(scene.title, margin, titleY, titleSize);
+  const titleLines = String(scene.title).split("\n").length;
+  const subY = titleY + titleLines * titleSize * 1.08 + 36;
+  if (scene.kind === "terminal" || scene.kind === "code") {
+    const typed = (scene.code || scene.sub).slice(0, Math.floor(Math.max(0, local - 0.35) * 42));
+    if (portrait) {
+      panel(72, 620, 936, 1100, scene.kind === "code" ? "●  ●  ●     source" : "●  ●  ●     terminal", typed, 32);
+    } else {
+      text(scene.sub, margin, subY, 30, tokens.secondaryText, 400);
+      panel(margin, 520, 1680, 420, scene.kind === "code" ? "●  ●  ●     source" : "●  ●  ●     terminal", typed, 34);
+    }
+  } else {
+    text(scene.sub, margin, subY, portrait ? 32 : 30, tokens.secondaryText, 400);
+  }
+  if (shot) {
+    // Vertical is its own layout: the mobile capture sits in the lower frame.
+    // Horizontal keeps the capture on the right. Neither path crops the other master.
+    const bounds = portrait
+      ? { maxW: 900, maxH: 1180, x: 90, y: 620 }
+      : { maxW: 860, maxH: 620, x: 980, y: 200 };
+    const fit = Math.min(bounds.maxW / shot.width, bounds.maxH / shot.height);
+    const boxW = shot.width * fit;
+    const boxH = shot.height * fit;
+    const boxX = portrait ? (width - boxW) / 2 : bounds.x;
+    const boxY = bounds.y;
+    ctx.fillStyle = tokens.surface;
+    ctx.fillRect(boxX - 16, boxY - 16, boxW + 32, boxH + 32);
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(boxX, boxY, boxW, boxH);
+    ctx.clip();
+    ctx.drawImage(shot, boxX, boxY, boxW, boxH);
+    ctx.restore();
+    text("EXAMPLE APP · LOCAL DEMO DATA", boxX, boxY + boxH + 42, portrait ? 20 : 18, tokens.muted, 400);
+  }
+  ctx.restore();
+  ctx.fillStyle = tokens.primary;
+  ctx.fillRect(0, height - 6, width * (clamped / total), 6);
+  ctx.globalAlpha = 1;
+  return canvas.toDataURL("image/jpeg", 0.92).split(",")[1];
+};
+</script>
+</html>
