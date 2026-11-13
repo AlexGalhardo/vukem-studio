@@ -1,78 +1,115 @@
 [
   {
-    "title": "Every product starts\nwith an idea.",
-    "sub": "Make yours real.",
-    "kind": "title"
+    "title": "Start with the CLI.",
+    "sub": "Real commands from this build.",
+    "kind": "title",
+    "seconds": 7
   },
   {
-    "title": "Meet Vukem.",
-    "sub": "A Go framework for APIs and full-stack apps.",
-    "kind": "title"
+    "title": "vukem version",
+    "sub": "The CLI that generated the example.",
+    "kind": "terminal",
+    "seconds": 7,
+    "code": "$ vukem version\nvukem v0.43.1-0.20261112225041-c8fadd0fe191+dirty"
   },
   {
-    "title": "Your next idea?\nPersonal finance.",
-    "sub": "A real SaaS scaffold. Ready to explore.",
-    "kind": "dashboard"
+    "title": "Create the app.",
+    "sub": "vukem new money --example finance --seed",
+    "kind": "terminal",
+    "seconds": 7,
+    "code": "finance: migrating and seeding local admin and demo data\nMigrated: 20261113000021_create_social_accounts_table\nMigrated: 20261113000022_add_two_factor_columns\nMigrated: 20261113000024_create_finance_tables\nSeeded: FinanceAdminSeeder\nSeeded: FinanceDemoSeeder"
   },
   {
-    "title": "Start with a command.",
-    "sub": "vukem new money --example finance",
-    "kind": "terminal"
+    "title": "The database is ready.",
+    "sub": "vukem migrate, then the finance seeders.",
+    "kind": "terminal",
+    "seconds": 7,
+    "code": "Migrated: 20261113000019_create_users_table\nMigrated: 20261113000020_create_auth_tables\nMigrated: 20261113000024_create_finance_tables\nSeeded: FinanceAdminSeeder\nSeeded: FinanceDemoSeeder"
   },
   {
-    "title": "Create the database.",
-    "sub": "cd money\nvukem migrate\nvukem serve",
-    "kind": "terminal"
+    "title": "Every route, listed.",
+    "sub": "vukem route:list",
+    "kind": "terminal",
+    "seconds": 7,
+    "code": "GET     /{$}                              home\nPOST    /locale                           locale\nGET     /auth/{provider}/redirect         social.redirect\nGET     /dashboard                        dashboard\nGET     /transactions                     transactions.index\nGET     /accounts                         accounts.index\nGET     /admin                            admin.home"
   },
   {
-    "title": "Make it personal.",
-    "sub": "Registration and sign-in, included.",
-    "kind": "login"
+    "title": "vukem serve",
+    "sub": "The generated app listens locally.",
+    "kind": "terminal",
+    "seconds": 7,
+    "code": "$ vukem serve\nlevel=INFO msg=\"http server starting\" addr=127.0.0.1:3310 env=development tls=false"
   },
   {
-    "title": "See the whole picture.",
-    "sub": "Income. Expenses. Balance.",
-    "kind": "dashboard"
+    "title": "Auth",
+    "sub": "Google is offered only when both credentials are set.",
+    "kind": "code",
+    "seconds": 8,
+    "code": "id, secret := app.Source.Get(\"SOCIAL_GOOGLE_CLIENT_ID\"), app.Source.Get(\"SOCIAL_GOOGLE_CLIENT_SECRET\")\nif (id == \"\") != (secret == \"\") {\n    return nil, errors.New(\"social: google: set both SOCIAL_GOOGLE_CLIENT_ID and SOCIAL_GOOGLE_CLIENT_SECRET\")\n}"
   },
   {
-    "title": "Bring your data\nto life.",
-    "sub": "Six months of financial activity.",
-    "kind": "dashboard"
+    "title": "Database",
+    "sub": "Transactions persist integer cents.",
+    "kind": "code",
+    "seconds": 8,
+    "code": "t.String(\"kind\")\nt.BigInteger(\"amount_cents\")\nt.String(\"description\")\nt.String(\"occurred_on\", 10)\nt.Timestamps()\nt.Index(\"workspace_id\", \"occurred_on\")"
   },
   {
-    "title": "Every detail counts.",
-    "sub": "Record and organize your transactions.",
-    "kind": "transactions"
+    "title": "Security",
+    "sub": "A nonce CSP, sessions, and CSRF.",
+    "kind": "code",
+    "seconds": 8,
+    "code": "default-src 'self'\nscript-src 'self' 'nonce-{nonce}'\nstyle-src 'self' 'nonce-{nonce}'\nframe-ancestors 'none'\nform-action 'self'\nsession.(*Manager).Middleware\ncsrf.Middleware"
+  },
+  {
+    "title": "CLI",
+    "sub": "Generators and installers from vukem.",
+    "kind": "terminal",
+    "seconds": 8,
+    "code": "serve                        Run the app (HTTP, scheduler) and restart it when Go files change\nmake:migration <name>        Create a migration and register it\ninstall:auth                 Add login, registration, password reset and email verification\ninstall:api                  Add API tokens, /api/v1 routes, CORS and rate limiting\nstudio                       Open vukem-studio, the read-only data browser for the project's databases"
+  },
+  {
+    "title": "APIs",
+    "sub": "install:api adds tokens, CORS, and rate limiting.",
+    "kind": "terminal",
+    "seconds": 8,
+    "code": "install:api\nAdd API tokens, /api/v1 routes, CORS and rate limiting\n\nmake:resource <Name>\nCreate an API resource (JSON transformer) for a model"
+  },
+  {
+    "title": "Vukem Studio",
+    "sub": "A read-only browser for the project databases.",
+    "kind": "terminal",
+    "seconds": 8,
+    "code": "studio\nOpen vukem-studio, the read-only data browser for the project's databases."
+  },
+  {
+    "title": "The example SaaS.",
+    "sub": "Personal finance, generated by that command.",
+    "kind": "title",
+    "seconds": 8
+  },
+  {
+    "title": "Make room for\nwhat matters.",
+    "sub": "The public landing.",
+    "kind": "landing",
+    "seconds": 8
+  },
+  {
+    "title": "Your money,\nat a glance.",
+    "sub": "Income, expenses, and balance.",
+    "kind": "dashboard",
+    "seconds": 8
+  },
+  {
+    "title": "Every detail\ncounts.",
+    "sub": "Add and edit transactions.",
+    "kind": "transactions",
+    "seconds": 7
   },
   {
     "title": "A place for\nevery account.",
-    "sub": "Your product. Your structure.",
-    "kind": "accounts"
-  },
-  {
-    "title": "Go on the server.\nReact in the browser.",
-    "sub": "Connected through Inertia.",
-    "kind": "title"
-  },
-  {
-    "title": "Read it. Change it.\nMake it yours.",
-    "sub": "Generated application code belongs to you.",
-    "kind": "terminal",
-    "code": "g.Get(\"/dashboard\",\n    h.Dashboard,\n).Name(\"dashboard\")"
-  },
-  {
-    "title": "From an idea\nto an application.",
-    "sub": "Built with Vukem.",
-    "kind": "dashboard"
-  },
-  {
-    "title": "Your next product\nstarts here.",
-    "sub": "Explore the framework. Build something new.",
-    "kind": "title"
-  },
-  {
-    "title": "vukem.dev",
-    "sub": "Create your first application.",
-    "kind": "title"
+    "sub": "The books stay in one workspace.",
+    "kind": "accounts",
+    "seconds": 7
   }
 ]

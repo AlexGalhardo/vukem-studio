@@ -1,0 +1,52 @@
+{
+  "renderer": "vukem-film-canvas-1",
+  "inputHashes": {
+    "scripts/film/render.mjs": "7422b8fb7a51d4d89afd28f8608c7642bfa0f58c97c622b8b41d5b29046a4bb8",
+    "scripts/film/composition.html": "506262f236caea70d54daf810895829ecb03ec3cb71608110df24a05fc65a5b3",
+    "scripts/film/scenes.json": "921b73cbb709b8ea89249dca9603a35b906df48a351357b2f87f9bd0046f7d1e",
+    "films/vukem-launch/art-direction.json": "ee87c61591507da301e64ac4c091bb9a2f03e5758ce796693bfd64430a87e5d9",
+    "films/vukem-launch/assets/capture.json": "17ff39c54f915f0af7c84a37d044a1e16d1cba847b233e117737de9baa3fb6a8",
+    "node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+    "storage/marketing/output/soundtrack.wav": "854e493ce11007ad423a43169e3f3ad702aab63be44bab46140511c478244c35",
+    "films/vukem-launch/assets/landing-horizontal.png": "5375bb5a086ba283fa64f4c0fb77ba70dd145e03be1cd5ed6eb24544939c5ab5",
+    "films/vukem-launch/assets/dashboard-horizontal.png": "5d9a6ef0b35caa1196e7aa723e8119bdb2d33b6c6b977801d9c0ce6fec2f0986",
+    "films/vukem-launch/assets/transactions-horizontal.png": "247f3e498f6c3f3a6a35af3293d60566bd74653a9de8aea9856f4e04f2a0dfcf",
+    "films/vukem-launch/assets/accounts-horizontal.png": "580d8d54c060afd8453b2ae53e672f1799d55e80e2d3c2aceda0e7beb02ed123"
+  },
+  "node": "v24.18.0",
+  "chromium": "156.0.8078.4",
+  "sceneManifestSHA256": "921b73cbb709b8ea89249dca9603a35b906df48a351357b2f87f9bd0046f7d1e",
+  "capture": {
+    "framework": "v0.43.1-0.20261112225041-c8fadd0fe191+dirty",
+    "publishedCLI": "v0.43.0",
+    "scaffold": "finance",
+    "sourceRevision": "c8fadd0fe1915b3b4dde65cdeef378cebc23c40b",
+    "uncommitted": "Phase 9 finance scaffold plus absoluteBuildOutput, on top of main c8fadd0f. Published CLI v0.43.0 predates these scaffold fixes. No release tag was cut for the film.",
+    "generatedBy": "vukem new money --example finance --module example.com/money --framework <vukem-finance-ui> --no-install --pm npm --seed",
+    "url": "http://127.0.0.1:3310",
+    "interfaceModified": false,
+    "data": "FinanceDemoSeeder fictional rows. The capture signs in and does not delete or reseed.",
+    "routes": [
+      "/",
+      "/login",
+      "/dashboard",
+      "/transactions",
+      "/accounts"
+    ],
+    "viewports": {
+      "horizontal": [
+        1440,
+        900
+      ],
+      "vertical": [
+        390,
+        844
+      ]
+    },
+    "capturedAt": "2026-11-13T00:13:38.301Z"
+  },
+  "format": "horizontal",
+  "startSeconds": 0,
+  "seconds": 128,
+  "ffmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers"
+}

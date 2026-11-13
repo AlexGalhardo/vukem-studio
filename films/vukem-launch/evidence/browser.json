@@ -31,5 +31,8 @@
   },
   "reducedMotion": "passed, no canvas",
   "webglUnavailable": "passed, readable fallback",
-  "browserErrors": []
+  "browserErrors": [],
+  "frameworkFeedbackPR": "https://github.com/AlexGalhardo/vukem/pull/202",
+  "sourcePathsWithSpaces": "vertical two-second smoke passed",
+  "negativeValidation": "invalid format and invalid timeline start rejected"
 }

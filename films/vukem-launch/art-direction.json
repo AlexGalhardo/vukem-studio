@@ -1,10 +1,33 @@
 {
   "reference": ".agents/skills/prancha-de-referencia/video-direcao-de-arte/kit/presets/lab-ia.json",
   "decision": "Technological direction approved by the operator on 2026-11-12; remaining production choices delegated.",
-  "palette": { "background": "#07090d", "surface": "#111722", "text": "#edf1f5", "muted": "#8494a7", "secondaryText": "#9caabb", "primary": "#38e1ff", "grid": "#14202b" },
+  "palette": {
+    "background": "#07090d",
+    "surface": "#111722",
+    "text": "#edf1f5",
+    "muted": "#8494a7",
+    "secondaryText": "#9caabb",
+    "primary": "#38e1ff",
+    "grid": "#14202b"
+  },
   "fonts": { "title": "Geist", "body": "Geist" },
   "safeMargins": { "horizontal": [110, 100], "vertical": [100, 165] },
-  "motion": { "entranceSeconds": 0.7, "exitSeconds": 0.33, "curve": "cubic-out", "elastic": false },
-  "output": { "fps": 30, "seconds": 120, "horizontal": [1920, 1080], "vertical": [1080, 1920] },
-  "audio": { "bpm": 120, "targetLUFS": -14, "maximumTruePeakDBTP": -1.5, "voice": false }
+  "motion": {
+    "entranceSeconds": 0.7,
+    "exitSeconds": 0.33,
+    "curve": "cubic-out",
+    "elastic": false
+  },
+  "output": {
+    "fps": 30,
+    "seconds": 128,
+    "horizontal": [1920, 1080],
+    "vertical": [1080, 1920]
+  },
+  "audio": {
+    "bpm": 120,
+    "targetLUFS": -14,
+    "maximumTruePeakDBTP": -1.5,
+    "voice": false
+  }
 }
